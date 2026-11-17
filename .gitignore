@@ -1,0 +1,22 @@
+# Secrets — never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+
+# Editor / OS clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Older saved copies of the page (not part of the site)
+revive cleaning.html
+revive cleaning.md
+
+# Local tooling
+.claude/
+node_modules/
