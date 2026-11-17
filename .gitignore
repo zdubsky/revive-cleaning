@@ -17,6 +17,9 @@ desktop.ini
 revive cleaning.html
 revive cleaning.md
 
+# Personal notes
+*.txt
+
 # Local tooling
 .claude/
 node_modules/

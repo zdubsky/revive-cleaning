@@ -3,21 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
-<title>revive cleaning</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<title>Prism Estimator</title>
+<meta name="description" content="An instant 3D quote builder and booking form for residential cleaning companies. Visitors build their home, see an honest price range, and book.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: full-bleed holographic 3D stage; controls docked left, live quote docked right; stacks with a sticky model on phones */
+/* Layout: one long sales page; live demo framed as the hero's proof, then outcome → features → setup → pricing → FAQ */
 :root{
   --void:#05080F;
   --deep:#0A1222;
-  --glass:rgba(13,22,42,.66);
-  --glass-hi:rgba(28,44,78,.72);
+  --panel:rgba(13,22,42,.66);
   --line:rgba(140,190,255,.14);
   --line-hi:rgba(140,220,255,.38);
   --pearl:#E9F1FF;
@@ -28,1403 +24,490 @@
   --flare:#FF7AB6;
   --amber:#FFB86B;
   --ok:#5CFFB0;
-  --err:#FF6B8B;
   --f-display:'Unbounded','Space Grotesk',system-ui,sans-serif;
   --f-body:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
   --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
-  --r:20px;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 html,body{background:var(--void)}
-body{color:var(--pearl);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;color:var(--pearl);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(60vw 50vh at 15% 0%, rgba(155,123,255,.16), transparent 70%),
-    radial-gradient(50vw 50vh at 90% 20%, rgba(92,242,255,.10), transparent 70%),
-    radial-gradient(70vw 40vh at 50% 110%, rgba(255,122,182,.08), transparent 70%);}
-button,input,textarea,select{font:inherit;color:inherit}
-button{cursor:pointer}
-:focus-visible{outline:2px solid var(--ion);outline-offset:2px}
-.mono{font-family:var(--f-mono)}
-.wrap{padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+  background:radial-gradient(60vw 50vh at 10% 0%,rgba(155,123,255,.18),transparent 70%),
+             radial-gradient(50vw 50vh at 95% 10%,rgba(92,242,255,.12),transparent 70%)}
+a{color:var(--ion)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--ion);outline-offset:3px}
+.wrap{position:relative;z-index:1;max-width:1180px;margin-inline:auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+section{padding-block:72px}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ion)}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+h1{font-weight:800;font-size:clamp(34px,5.4vw,64px);line-height:1.04;letter-spacing:-.02em}
+h2{font-weight:800;font-size:clamp(26px,3.4vw,40px);line-height:1.1;letter-spacing:-.01em}
+h3{font-weight:600;font-size:16px;letter-spacing:.01em}
+.grad{background:linear-gradient(90deg,var(--ion),var(--plasma) 60%,var(--flare));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mute);font-size:clamp(16px,1.6vw,19px);max-width:60ch;margin:18px 0 0}
+.sec-head{display:flex;flex-direction:column;gap:12px;max-width:720px;margin-bottom:40px}
+.sec-head p{color:var(--mute);margin:0;max-width:62ch}
 
-/* ---------- top bar ---------- */
-.top{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px;border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--pearl)}
-.brand svg{width:34px;height:34px;filter:drop-shadow(0 0 10px rgba(92,242,255,.5))}
-.brand b{font-family:var(--f-display);font-weight:800;font-size:17px;letter-spacing:.02em}
-.brand small{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;color:var(--mute);text-transform:uppercase}
-.top nav{display:flex;align-items:center;gap:22px}
-.top nav a{color:var(--mute);text-decoration:none;font-size:13px;font-weight:600}
-.top nav a:hover{color:var(--pearl)}
-.phone{font-family:var(--f-mono);font-size:13px;color:var(--pearl);user-select:all}
-.btn-sm{border:1px solid var(--line-hi);background:rgba(92,242,255,.08);padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px}
-.btn-sm:hover{background:rgba(92,242,255,.18)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:15px 22px;font-weight:700;font-size:15px;text-decoration:none;border:1px solid var(--line-hi);color:var(--pearl);background:rgba(92,242,255,.06);transition:transform .15s,background .2s}
+.btn:hover{background:rgba(92,242,255,.14);transform:translateY(-1px)}
+.btn.primary{border:none;color:#04101A;font-family:var(--f-display);font-weight:800;letter-spacing:.01em;
+  background:linear-gradient(110deg,var(--ion),#8FD8FF 35%,var(--plasma) 70%,var(--flare));background-size:200% 100%;animation:sheen 6s linear infinite;box-shadow:0 10px 40px -12px rgba(92,242,255,.7)}
+.btn svg{width:18px;height:18px}
 
-/* ---------- stage ---------- */
-.stage{position:relative;z-index:1}
-.viz{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 60%, #0D1A33 0%, var(--void) 70%)}
-.viz canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab}
-.viz canvas:active{cursor:grabbing}
-.hud{position:absolute;pointer-events:none;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-.hud-t{top:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;white-space:nowrap;
-  padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(5,8,15,.55);backdrop-filter:blur(8px)}
-.hud-t .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 1.6s infinite}
-.hud-t b{color:var(--pearl);font-weight:600}
-.hud-b{bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:calc(100% - 32px)}
-.hud-b span{display:inline-flex;align-items:center;gap:6px}
-.hud-b i{width:9px;height:9px;border-radius:2px;display:inline-block;box-shadow:0 0 8px currentColor}
-.tip{position:absolute;pointer-events:none;z-index:3;padding:8px 12px;border-radius:10px;border:1px solid var(--line-hi);background:rgba(5,10,22,.86);backdrop-filter:blur(8px);font-size:12px;transform:translate(14px,-50%);white-space:nowrap}
-.tip b{display:block;font-family:var(--f-display);font-size:12px;font-weight:600;letter-spacing:.02em}
-.tip span{display:block;font-family:var(--f-mono);color:var(--mute);font-size:11px}
-.tip em{display:block;font-style:normal;color:var(--ion);font-size:11px;margin-top:2px}
-.corner{position:absolute;width:22px;height:22px;border-color:var(--line-hi);border-style:solid;pointer-events:none}
-.c1{top:12px;left:12px;border-width:1px 0 0 1px}.c2{top:12px;right:12px;border-width:1px 1px 0 0}
-.c3{bottom:12px;left:12px;border-width:0 0 1px 1px}.c4{bottom:12px;right:12px;border-width:0 1px 1px 0}
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(5,8,15,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--pearl)}
+.brand svg{width:30px;height:30px;filter:drop-shadow(0 0 10px rgba(92,242,255,.5))}
+.brand b{font-family:var(--f-display);font-weight:800;font-size:15px;letter-spacing:.02em}
+.nav nav{display:flex;align-items:center;gap:24px}
+.nav nav a{color:var(--mute);text-decoration:none;font-size:14px;font-weight:600}
+.nav nav a:hover{color:var(--pearl)}
+.nav .btn{padding:10px 16px;font-size:13px}
 
-/* ---------- panels ---------- */
-.panel{position:relative;z-index:2;background:var(--glass);border:1px solid var(--line);border-radius:var(--r);
-  backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);padding:22px;display:flex;flex-direction:column;gap:20px;min-width:0}
-.panel::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;
-  background:linear-gradient(140deg,rgba(92,242,255,.35),transparent 30%,transparent 70%,rgba(155,123,255,.35));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:1px}
-.eyebrow{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ion)}
-h1{font-family:var(--f-display);font-weight:800;font-size:clamp(24px,2.2vw,30px);line-height:1.08;letter-spacing:-.01em;margin:6px 0 0;text-wrap:balance}
-h1 em{font-style:normal;background:linear-gradient(90deg,var(--ion),var(--plasma) 60%,var(--flare));-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{color:var(--mute);font-size:13.5px;margin:8px 0 0}
-.helper{font-size:12.5px;line-height:1.45;color:var(--pearl);background:rgba(92,242,255,.06);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:12px 0 0}
-.group{display:flex;flex-direction:column;gap:16px;padding-top:18px;border-top:1px solid var(--line)}
-.ghead{font-family:var(--f-display);font-size:13px;font-weight:600;letter-spacing:.01em;margin:0}
-.field{display:flex;flex-direction:column;gap:10px;min-width:0}
-.lbl{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
-.lbl .v{color:var(--pearl);letter-spacing:.04em;font-size:13px}
-.sq-in{display:inline-flex;align-items:baseline;gap:4px}
-.sq-in input{width:74px;background:transparent;border:none;border-bottom:1px dashed var(--line-hi);text-align:right;font-family:var(--f-mono);font-size:15px;font-weight:600;color:var(--pearl);padding:0 2px;font-variant-numeric:tabular-nums}
-.sq-in input::-webkit-inner-spin-button{display:none}
-input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;--p:50%}
-input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--ion),var(--plasma) var(--p),rgba(140,190,255,.15) var(--p))}
-input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--ion),var(--plasma) var(--p),rgba(140,190,255,.15) var(--p))}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;margin-top:-9px;border-radius:50%;background:var(--pearl);border:4px solid var(--void);box-shadow:0 0 0 1px var(--ion),0 0 18px var(--ion)}
-input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--pearl);border:4px solid var(--void);box-shadow:0 0 0 1px var(--ion),0 0 18px var(--ion)}
-.ticks{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:10px;color:var(--dim);margin-top:-6px}
-.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:14px;background:rgba(5,8,15,.5);border:1px solid var(--line)}
-.seg button{border:none;background:transparent;border-radius:10px;padding:9px 4px;font-weight:700;font-size:13px;color:var(--mute);transition:.2s;line-height:1.2}
-.seg button[aria-checked=true]{background:linear-gradient(135deg,rgba(92,242,255,.22),rgba(155,123,255,.22));color:var(--pearl);box-shadow:inset 0 0 0 1px var(--line-hi)}
-.seg button:disabled{opacity:.35;cursor:not-allowed}
-.seg.small button{font-size:12px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.step{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:14px;background:rgba(5,8,15,.5);padding:5px}
-.step button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:rgba(140,190,255,.06);font-size:18px;line-height:1}
-.step button:hover:not(:disabled){border-color:var(--ion);color:var(--ion)}
-.step button:disabled{opacity:.3;cursor:not-allowed}
-.step output{font-family:var(--f-display);font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}
-.tog{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:14px;background:rgba(5,8,15,.5);padding:10px 12px;font-size:13.5px;font-weight:600;width:100%;text-align:left;min-height:46px}
-.tog small{display:block;font-weight:500;color:var(--mute);font-size:12px}
-.tog i{width:38px;height:22px;border-radius:999px;background:rgba(140,190,255,.15);position:relative;flex:none;transition:.2s}
-.tog i::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--mute);transition:.2s}
-.tog[aria-checked=true]{border-color:var(--line-hi)}
-.tog[aria-checked=true] i{background:linear-gradient(90deg,var(--ion),var(--plasma))}
-.tog[aria-checked=true] i::after{left:19px;background:#fff}
-.txt{background:rgba(5,8,15,.5);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;width:100%;color:var(--pearl)}
-.txt::placeholder{color:var(--dim)}
-.txt:focus{outline:none;border-color:var(--ion);box-shadow:0 0 0 3px rgba(92,242,255,.12)}
-.skipinfo{font-size:12px;color:var(--mute);display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:-4px}
-.linkbtn{border:none;background:none;color:var(--ion);font-weight:700;font-size:12px;padding:0;flex:none}
-.types{display:grid;gap:8px}
-.type{display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;text-align:left;padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(5,8,15,.45);transition:.2s}
-.type:hover{border-color:var(--line-hi)}
-.type svg{width:38px;height:38px;color:var(--mute)}
-.type b{display:block;font-family:var(--f-display);font-size:13px;font-weight:600;letter-spacing:.01em}
-.type small{display:block;color:var(--mute);font-size:12px;line-height:1.35}
-.type .m{font-family:var(--f-mono);font-size:11px;color:var(--mute);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
-.type[aria-checked=true]{border-color:transparent;background:linear-gradient(var(--deep),var(--deep)) padding-box,linear-gradient(120deg,var(--ion),var(--plasma),var(--flare)) border-box;border:1px solid transparent;box-shadow:0 0 30px -8px rgba(92,242,255,.5)}
-.type[aria-checked=true] svg{color:var(--ion)}
-.type[aria-checked=true] .m{color:var(--ion);border-color:var(--ion)}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{border:1px solid var(--line);background:rgba(5,8,15,.45);border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:600;color:var(--mute);transition:.2s}
-.chip span{font-family:var(--f-mono);font-size:11px;opacity:.75;margin-left:4px}
-.chip[aria-pressed=true]{color:var(--pearl);border-color:var(--plasma);background:rgba(155,123,255,.16);box-shadow:0 0 16px -4px rgba(155,123,255,.6)}
-.note{font-size:11.5px;color:var(--dim);margin:-4px 0 0}
+/* hero */
+.hero{padding-block:72px 40px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:44px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.facts div{background:rgba(8,13,26,.85);padding:18px}
+.facts b{display:block;font-family:var(--f-display);font-size:15px;font-weight:600;margin-bottom:4px}
+.facts span{color:var(--mute);font-size:13.5px;line-height:1.45;display:block}
 
-/* quote */
-.q-head{display:flex;justify-content:space-between;align-items:center}
-.live{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;color:var(--ok)}
-.live i{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulse 1.4s infinite}
-.price{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,3.2vw,44px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap;
-  background:linear-gradient(180deg,#fff 20%,#B9C9FF);-webkit-background-clip:text;background-clip:text;color:transparent;transition:filter .3s}
-.price sup{font-size:.5em;vertical-align:.7em;margin-right:2px;-webkit-text-fill-color:var(--ion)}
-.price .dash{-webkit-text-fill-color:var(--dim);font-weight:400;margin:0 .1em}
-.price.bump{filter:drop-shadow(0 0 18px rgba(92,242,255,.7))}
-.per{color:var(--mute);font-size:13px;margin-top:8px}
-.saved{font-size:13px;color:var(--ok);border:1px solid rgba(92,255,176,.3);background:rgba(92,255,176,.06);border-radius:12px;padding:9px 12px;line-height:1.4}
-.saved b{font-family:var(--f-mono)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
-.stats div{background:rgba(5,8,15,.6);padding:12px 10px}
-.stats small{display:block;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
-.stats b{font-family:var(--f-display);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums}
-.sec-h{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase;margin:0 0 -8px}
-.lines{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13px}
-.lines li{display:flex;justify-content:space-between;gap:10px;color:var(--mute)}
-.lines li span:first-child{min-width:0}
-.lines li span:last-child{font-family:var(--f-mono);color:var(--pearl);font-variant-numeric:tabular-nums;white-space:nowrap}
-.lines li.h{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-top:6px}
-.lines li.add span:last-child{color:var(--amber)}
-.lines li.disc span:last-child{color:var(--ok)}
-.lines li.note{font-size:12px;color:var(--dim)}
-.lines li.note span:last-child{color:var(--dim)}
-.lines li.sub{border-top:1px solid var(--line);padding-top:7px;color:var(--pearl);font-weight:600}
-.lines li.tot{border-top:1px dashed var(--line-hi);padding-top:9px;color:var(--pearl);font-weight:700}
-.opps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:12.5px}
-.opps li{display:grid;grid-template-columns:18px 1fr;gap:6px;color:var(--mute);line-height:1.35}
-.opps li::before{content:"○";color:var(--dim);font-family:var(--f-mono)}
-.opps li.on{color:var(--pearl)}
-.opps li.on::before{content:"✓";color:var(--ok)}
-.opps small{display:block;color:var(--dim);font-size:11.5px}
-.trans{border:1px dashed var(--line-hi);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--mute);line-height:1.45}
-.trans b{color:var(--pearl);font-family:var(--f-mono)}
-details.inc{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-details.inc summary{cursor:pointer;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
-.inc .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
-.inc h5{margin:0 0 4px;font-size:12px;font-weight:700}
-.inc ul{margin:0;padding-left:16px;font-size:12px;color:var(--mute);display:grid;gap:3px}
-.inc li.added{color:var(--amber)}
-.cta{position:relative;width:100%;border:none;border-radius:16px;padding:19px 20px;font-family:var(--f-display);font-weight:800;font-size:16px;letter-spacing:.02em;color:#04101A;
-  background:linear-gradient(110deg,var(--ion),#8FD8FF 35%,var(--plasma) 70%,var(--flare));background-size:200% 100%;animation:sheen 6s linear infinite;
-  box-shadow:0 10px 40px -10px rgba(92,242,255,.7),0 0 0 1px rgba(255,255,255,.2) inset;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s}
-.cta:hover{transform:translateY(-2px)}
-.cta:active{transform:translateY(0)}
-.cta svg{width:20px;height:20px}
-.fine{font-size:11.5px;color:var(--dim);margin:-6px 0 0;line-height:1.45}
+/* demo frame */
+.demo{padding-top:16px}
+.browser{border:1px solid var(--line-hi);border-radius:18px;overflow:hidden;background:var(--deep);box-shadow:0 40px 140px -40px rgba(92,242,255,.45),0 0 0 1px rgba(255,255,255,.03) inset}
+.chrome{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(5,8,15,.7)}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:var(--dim);display:block}
+.url{flex:1;min-width:0;font-family:var(--f-mono);font-size:12px;color:var(--mute);background:rgba(140,190,255,.06);border:1px solid var(--line);border-radius:8px;padding:5px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.url b{color:var(--pearl);font-weight:600}
+.chrome a{font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap}
+.frame{position:relative;height:min(820px,82vh);min-height:560px}
+.frame iframe{display:block;width:100%;height:100%;border:0;background:var(--void)}
+.shield{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,rgba(5,8,15,0) 40%,rgba(5,8,15,.55));border:0;padding:0;cursor:pointer}
+.shield span{margin-top:auto;margin-bottom:28px;display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;border:1px solid var(--line-hi);background:rgba(5,8,15,.85);backdrop-filter:blur(8px);font-weight:700;font-size:14px}
+.shield span i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 1.6s infinite}
+.caption{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 20px;margin-top:14px;color:var(--dim);font-size:13px}
 
-/* ---------- trust ---------- */
-.trust{position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding-block:48px}
-.trust div{border-top:1px solid var(--line-hi);padding-top:16px}
-.trust b{font-family:var(--f-display);font-size:14px;font-weight:600;display:block;margin-bottom:6px}
-.trust p{margin:0;color:var(--mute);font-size:13.5px;max-width:42ch}
-.trust .k{font-family:var(--f-mono);font-size:10.5px;color:var(--ion);letter-spacing:.18em;display:block;margin-bottom:8px}
-footer{position:relative;z-index:1;padding-block:24px 40px;border-top:1px solid var(--line);color:var(--dim);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+.steps li{counter-increment:s;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--panel);min-width:0}
+.steps li::before{content:"0" counter(s);font-family:var(--f-mono);font-size:12px;color:var(--ion);letter-spacing:.14em;display:block;margin-bottom:14px}
+.steps p{color:var(--mute);margin:8px 0 0;font-size:15px}
 
-/* ---------- mobile bar ---------- */
-.mbar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:none;align-items:center;gap:12px;
-  padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
-  background:rgba(5,8,15,.86);backdrop-filter:blur(16px);border-top:1px solid var(--line-hi)}
-.mbar .mp{font-family:var(--f-display);font-weight:800;font-size:19px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.mbar small{display:block;font-family:var(--f-mono);font-size:10px;color:var(--mute);letter-spacing:.12em;text-transform:uppercase}
-.mbar .cta{width:auto;flex:1;padding:14px 12px;font-size:13px}
+/* compare */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;min-width:620px;font-size:15px}
+th,td{text-align:left;padding:16px 20px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+thead th{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400}
+thead th:last-child{color:var(--ion)}
+td:first-child{font-weight:700;width:24%}
+td:nth-child(2){color:var(--mute)}
+td:last-child{color:var(--pearl)}
 
-/* ---------- modal ---------- */
-.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(2,4,10,.72);backdrop-filter:blur(10px);animation:fade .25s}
-.sheet{width:min(620px,100%);max-height:calc(100% - 16px);overflow:auto;background:linear-gradient(180deg,#0E1830,#080E1C);border:1px solid var(--line-hi);border-radius:24px;
-  box-shadow:0 30px 120px -20px rgba(92,242,255,.35);display:flex;flex-direction:column;animation:rise .35s cubic-bezier(.2,.9,.3,1.2)}
-.m-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:22px 24px 0}
-.m-head h2{font-family:var(--f-display);font-weight:800;font-size:22px;margin:4px 0 0}
-.x{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:transparent;font-size:20px;flex:none}
-.x:hover{border-color:var(--ion)}
-.progress{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:18px 24px 0}
-.progress div{display:flex;flex-direction:column;gap:6px;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
-.progress div::before{content:"";height:3px;border-radius:3px;background:var(--line)}
-.progress div.on{color:var(--pearl)}
-.progress div.on::before{background:linear-gradient(90deg,var(--ion),var(--plasma));box-shadow:0 0 10px rgba(92,242,255,.6)}
-.m-body{padding:22px 24px;display:flex;flex-direction:column;gap:18px}
-.dates{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
-.date{border:1px solid var(--line);background:rgba(5,8,15,.5);border-radius:12px;padding:9px 4px;text-align:center;line-height:1.15;position:relative}
-.date small{display:block;font-family:var(--f-mono);font-size:10px;color:var(--mute);letter-spacing:.12em}
-.date b{font-family:var(--f-display);font-size:18px;font-weight:600}
-.date .op{color:var(--ok)}
-.date[aria-checked=true],.slot[aria-checked=true]{border-color:var(--ion);background:rgba(92,242,255,.12);box-shadow:0 0 20px -6px var(--ion)}
-.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
-.slot{border:1px solid var(--line);background:rgba(5,8,15,.5);border-radius:12px;padding:11px;font-family:var(--f-mono);font-size:13px}
-.slot:disabled{opacity:.3;text-decoration:line-through;cursor:not-allowed}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.form .full{grid-column:1/-1}
-.form .sub-h{grid-column:1/-1;font-family:var(--f-display);font-size:13px;font-weight:600;margin:6px 0 -4px}
-.form label{display:flex;flex-direction:column;gap:6px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);min-width:0}
-.form input,.form textarea,.form select{background:rgba(5,8,15,.6);border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-family:var(--f-body);font-size:15px;letter-spacing:0;text-transform:none;color:var(--pearl);width:100%}
-.form select option{background:var(--deep)}
-.form input:focus,.form textarea:focus,.form select:focus{outline:none;border-color:var(--ion);box-shadow:0 0 0 3px rgba(92,242,255,.15)}
-.form .bad input,.form .bad select{border-color:var(--err)}
-.err{color:var(--err);font-family:var(--f-body);letter-spacing:0;text-transform:none;font-size:12px;min-height:0}
-.review{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.review div{display:flex;justify-content:space-between;gap:16px;padding:11px 14px;background:rgba(5,8,15,.45);font-size:13.5px}
-.review div span:first-child{color:var(--mute);font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding-top:2px;flex:none}
-.review div span:last-child{text-align:right;min-width:0;overflow-wrap:anywhere}
-.review .big{background:rgba(92,242,255,.08)}
-.review .big span:last-child{font-family:var(--f-display);font-weight:800;font-size:20px}
-.m-foot{display:flex;justify-content:space-between;gap:10px;padding:0 24px 24px}
-.ghost{border:1px solid var(--line);background:transparent;border-radius:14px;padding:14px 20px;font-weight:700}
-.m-foot .cta{width:auto;padding:14px 24px;font-size:14px}
-.done{text-align:center;padding:16px 0 4px;display:flex;flex-direction:column;align-items:center;gap:10px}
-.done .ring{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(92,255,176,.25),transparent 70%);border:1px solid var(--ok);box-shadow:0 0 40px -6px var(--ok)}
-.done .ring svg{width:40px;height:40px;color:var(--ok)}
-.done h3{font-family:var(--f-display);font-size:22px;margin:6px 0 0}
-.done p{color:var(--mute);margin:0;max-width:44ch}
-.ref{font-family:var(--f-mono);font-size:15px;letter-spacing:.14em;color:var(--ion);border:1px dashed var(--line-hi);padding:8px 14px;border-radius:10px;user-select:all}
-.demo{font-size:11.5px;color:var(--dim)}
+/* features */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--panel);display:flex;flex-direction:column;gap:10px;min-width:0}
+.feat svg{width:34px;height:34px;color:var(--ion)}
+.feat p{color:var(--mute);margin:0;font-size:15px}
 
-@keyframes pulse{50%{opacity:.35}}
+/* config split */
+.split{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center}
+.split ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:12px}
+.split li{display:grid;grid-template-columns:22px 1fr;gap:10px;color:var(--mute);font-size:15px}
+.split li::before{content:"";width:8px;height:8px;margin-top:9px;border-radius:2px;background:var(--ion);box-shadow:0 0 10px var(--ion)}
+.split li b{color:var(--pearl)}
+pre{margin:0;overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:#070C18;padding:22px;font-family:var(--f-mono);font-size:13px;line-height:1.7;color:#C9D6FF;min-width:0}
+pre .c{color:var(--dim)}pre .k{color:var(--plasma)}pre .s{color:var(--amber)}pre .n{color:var(--ion)}
+
+/* setup */
+.setup{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;counter-reset:t}
+.setup li{counter-increment:t;padding:22px;background:var(--panel);border-right:1px solid var(--line);min-width:0}
+.setup li:last-child{border-right:none}
+.setup small{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;color:var(--ion);text-transform:uppercase;margin-bottom:10px}
+.setup p{color:var(--mute);margin:8px 0 0;font-size:14.5px}
+.embed{margin-top:24px}
+.embed .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.copy{border:1px solid var(--line-hi);background:transparent;border-radius:8px;padding:5px 10px;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.plan{position:relative;padding:28px;border:1px solid var(--line);border-radius:22px;background:var(--panel);display:flex;flex-direction:column;gap:18px;min-width:0}
+.plan.best{border:1px solid transparent;background:linear-gradient(var(--deep),var(--deep)) padding-box,linear-gradient(130deg,var(--ion),var(--plasma),var(--flare)) border-box;box-shadow:0 30px 80px -30px rgba(92,242,255,.45)}
+.tag{position:absolute;top:-12px;left:28px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;background:var(--ion);color:#04101A;padding:4px 10px;border-radius:999px;font-weight:600}
+.plan h3{font-size:18px}
+.plan .for{color:var(--mute);font-size:14px;margin:4px 0 0}
+.amt{font-family:var(--f-display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.amt small{font-family:var(--f-body);font-size:15px;font-weight:600;color:var(--mute);letter-spacing:0}
+.setupfee{font-family:var(--f-mono);font-size:12.5px;color:var(--mute);margin-top:6px}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:14.5px;flex:1}
+.plan li{display:grid;grid-template-columns:18px 1fr;gap:8px;color:var(--mute)}
+.plan li::before{content:"✓";color:var(--ok);font-family:var(--f-mono)}
+.plan li b{color:var(--pearl);font-weight:600}
+.plan .btn{width:100%}
+.price-note{color:var(--dim);font-size:13.5px;margin-top:20px;max-width:80ch}
+
+/* faq */
+.faq{display:grid;gap:10px;max-width:860px}
+.faq details{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:0 20px}
+.faq summary{cursor:pointer;list-style:none;padding:18px 0;font-weight:700;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-mono);color:var(--ion);font-size:18px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq p{margin:0 0 18px;color:var(--mute);max-width:70ch}
+
+/* contact */
+.contact{border:1px solid var(--line-hi);border-radius:24px;padding:clamp(28px,5vw,56px);background:radial-gradient(80% 120% at 0% 0%,rgba(155,123,255,.18),transparent 60%),radial-gradient(80% 120% at 100% 100%,rgba(92,242,255,.14),transparent 60%),var(--deep);display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center}
+.contact p{color:var(--mute);margin:12px 0 0;max-width:52ch}
+.contact-box{border:1px dashed var(--line-hi);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.contact-box .v{font-family:var(--f-mono);font-size:15px;user-select:all;overflow-wrap:anywhere}
+.contact-box .soon{color:var(--amber);font-family:var(--f-mono);font-size:13px}
+footer{position:relative;z-index:1;border-top:1px solid var(--line);color:var(--dim);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-block:28px 40px}
+
 @keyframes sheen{to{background-position:-200% 0}}
-@keyframes fade{from{opacity:0}}
-@keyframes rise{from{opacity:0;transform:translateY(24px) scale(.97)}}
+@keyframes pulse{50%{opacity:.35}}
 
-/* ---------- desktop ---------- */
-@media (min-width:1100px){
-  .stage{display:grid;grid-template-columns:minmax(330px,380px) 1fr minmax(310px,360px);gap:24px;align-items:start;
-    padding-block:24px;height:clamp(700px,calc(100svh - 70px),980px)}
-  .viz{position:absolute;inset:0}
-  .controls{grid-column:1;max-height:100%;overflow:auto;scrollbar-width:thin}
-  .quote{grid-column:3;max-height:100%;overflow:auto;scrollbar-width:thin}
+@media (max-width:980px){
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .steps,.features,.plans{grid-template-columns:1fr 1fr}
+  .split,.contact{grid-template-columns:1fr}
+  .setup{grid-template-columns:1fr 1fr}
+  .setup li:nth-child(2){border-right:none}
+  .setup li:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .nav nav a:not(.btn){display:none}
 }
-/* ---------- tablet & phone ---------- */
-@media (max-width:1099px){
-  .stage{display:flex;flex-direction:column;gap:16px;padding-block:0 16px}
-  .viz{position:sticky;top:0;z-index:3;height:min(46svh,460px);margin-inline:calc(-1 * max(24px,env(safe-area-inset-left,0px)));border-bottom:1px solid var(--line-hi)}
-  .stage .panel{width:100%;max-width:640px;margin-inline:auto}
-  .mbar{display:flex}
-  body{padding-bottom:96px}
-  .top nav a{display:none}
-  .hint{display:none}
-}
-@media (max-width:560px){
+@media (max-width:640px){
   .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-  .viz{margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
-  .phone{display:none}
-  .hud-t{font-size:9.5px;top:12px;padding:6px 10px}
-  .tele-x{display:none}
-  .hud-b{gap:8px;font-size:9px;bottom:12px}
-  .panel{padding:18px}
-  .form{grid-template-columns:1fr}
-  .inc .cols{grid-template-columns:1fr}
-  .m-head,.progress,.m-body{padding-left:18px;padding-right:18px}
-  .m-foot{padding:0 18px 18px}
+  section{padding-block:52px}
+  .hero{padding-block:44px 24px}
+  .facts,.steps,.features,.plans,.setup{grid-template-columns:1fr}
+  .setup li{border-right:none;border-bottom:1px solid var(--line)}
+  .setup li:last-child{border-bottom:none}
+  .frame{height:640px;min-height:0}
+  .hero .ctas{flex-direction:column}
+  .nav .btn{padding:9px 12px;font-size:12px}
 }
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
+</head>
+<body>
 
-<header class="top wrap">
-  <a class="brand" href="#top" aria-label="Prism Clean home">
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5CF2FF"/><stop offset=".6" stop-color="#9B7BFF"/><stop offset="1" stop-color="#FF7AB6"/></linearGradient></defs>
-      <path d="M20 3 36 31H4Z" stroke="url(#lg)" stroke-width="2.2" stroke-linejoin="round"/>
-      <path d="M20 3v28M20 31 12 17M20 31l8-14" stroke="url(#lg)" stroke-width="1.2" opacity=".7"/>
-      <circle cx="31" cy="9" r="2" fill="#5CF2FF"/>
-    </svg>
-    <span><b id="brandName">PRISM CLEAN</b><small id="brandTag">Residential cleaning</small></span>
-  </a>
-  <nav>
-    <a href="#how">How pricing works</a>
-    <a href="#trust">Guarantee</a>
-  </nav>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5CF2FF"/><stop offset=".6" stop-color="#9B7BFF"/><stop offset="1" stop-color="#FF7AB6"/></linearGradient></defs>
+        <path d="M20 3 36 31H4Z" stroke="url(#lg)" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M20 3v28M20 31 12 17M20 31l8-14" stroke="url(#lg)" stroke-width="1.2" opacity=".7"/>
+      </svg>
+      <b data-product>Prism Estimator</b>
+    </a>
+    <nav>
+      <a href="#demo">Live demo</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn primary" href="#contact">Get it for your business</a>
+    </nav>
+  </div>
 </header>
 
 <main id="top">
-<section class="stage wrap">
-  <div class="viz" id="viz">
-    <canvas id="c" aria-label="3D model of your home. Drag to rotate. Click a bedroom or bathroom to skip it."></canvas>
-    <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
-    <div class="hud hud-t"><span class="dot"></span><span id="tele">Scanning</span></div>
-    <div class="hud hud-b" id="legend"></div>
-    <div class="tip" id="tip" hidden></div>
-  </div>
-
-  <aside class="panel controls" aria-label="Your home">
-    <div>
-      <div class="eyebrow">Instant estimate · no phone call</div>
-      <h1>Build your home. <em>See your price.</em></h1>
-      <p class="lead">Tell us about your place and watch it take shape. Your quote updates with every change.</p>
-      <p class="helper">Be honest and specific upfront — accurate inputs produce a stable quote rather than a low estimate with surprise fees later.</p>
-    </div>
-
-    <div class="group">
-      <h2 class="ghead">Size</h2>
-      <div class="field">
-        <div class="lbl"><label for="sqftNum">Square footage</label>
-          <span class="v sq-in"><input id="sqftNum" type="number" inputmode="numeric" min="400" max="6000" step="50"> ft²</span></div>
-        <input id="sqft" type="range" min="400" max="6000" step="50" aria-label="Square footage">
-        <div class="ticks"><span>400</span><span>2,000</span><span>4,000</span><span>6,000</span></div>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">For residential cleaning companies</div>
+      <h1>Your website quotes and books cleans <span class="grad">while you're on the job.</span></h1>
+      <p class="lead">Visitors build their home in 3D, see an honest price range with every line explained, and book a time. No phone tag, no "we'll get back to you with a quote".</p>
+      <div class="ctas">
+        <a class="btn primary" href="#demo">Try the live demo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+        <a class="btn" href="#pricing">See pricing</a>
       </div>
-      <div class="field">
-        <div class="lbl"><span id="floorsLbl">Floors</span></div>
-        <div class="seg" role="radiogroup" aria-labelledby="floorsLbl" id="floors"></div>
+      <div class="facts">
+        <div><b>Quotes 24/7</b><span>Customers get a price at 11 pm without calling you.</span></div>
+        <div><b>Your rates</b><span>Base, per ft², rooms, deep and move-out multipliers, add-ons.</span></div>
+        <div><b>No surprise fees</b><span>Every factor and discount shows on its own line.</span></div>
+        <div><b>Any website</b><span>WordPress, Wix, Squarespace or custom, with one embed line.</span></div>
       </div>
     </div>
+  </section>
 
-    <div class="group">
-      <h2 class="ghead">Rooms &amp; layout</h2>
-      <div class="row2">
-        <div class="field">
-          <div class="lbl"><span>Bedrooms</span></div>
-          <div class="step"><button type="button" id="bedsMinus" aria-label="Fewer bedrooms">−</button><output id="beds" aria-live="polite"></output><button type="button" id="bedsPlus" aria-label="More bedrooms">+</button></div>
+  <section class="demo" id="demo">
+    <div class="wrap">
+      <div class="browser">
+        <div class="chrome">
+          <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="url">yourcleaningcompany.com/<b>instant-quote</b></div>
+          <a href="demo.html" target="_blank" rel="noopener">Open full screen ↗</a>
         </div>
-        <div class="field">
-          <div class="lbl"><span>Bathrooms</span></div>
-          <div class="step"><button type="button" id="bathsMinus" aria-label="Fewer bathrooms">−</button><output id="baths" aria-live="polite"></output><button type="button" id="bathsPlus" aria-label="More bathrooms">+</button></div>
+        <div class="frame">
+          <iframe id="demoFrame" src="demo.html" title="Live demo of the estimator" loading="eager"></iframe>
+          <button class="shield" id="shield" type="button" aria-label="Start using the live demo"><span><i></i>Click to try it: drag the house, change rooms, book</span></button>
         </div>
       </div>
-      <div class="skipinfo" id="skipInfo"></div>
-      <div class="field">
-        <div class="lbl"><span id="layoutLbl">Layout</span></div>
-        <div class="seg small" role="radiogroup" aria-labelledby="layoutLbl" id="layout"></div>
-        <p class="note" id="layoutNote"></p>
+      <div class="caption">
+        <span>This is the real product, running live. It uses a sample company, Prism Clean, with sample prices.</span>
+        <span>Yours shows your name, colors and rates.</span>
       </div>
     </div>
+  </section>
 
-    <div class="group">
-      <h2 class="ghead">Service</h2>
-      <div class="types" role="radiogroup" aria-label="Type of cleaning" id="types"></div>
-      <div class="field">
-        <div class="lbl"><span id="freqLbl">How often</span></div>
-        <div class="seg small" role="radiogroup" aria-labelledby="freqLbl" id="freq"></div>
-        <p class="note" id="freqNote"></p>
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">What your customer does</div>
+        <h2>From "how much?" to booked in about a minute</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Build their home</h3><p>Square footage, floors, bedrooms, bathrooms and layout. The 3D model rebuilds as they type. They can tap rooms they want skipped.</p></li>
+        <li><h3>See an honest price</h3><p>A price range with the base, home factors, add-ons and each discount listed. Condition, pets and clutter are priced in upfront.</p></li>
+        <li><h3>Book a time</h3><p>Date, arrival window, address, and how your crew gets in. The request reaches you with the full quote breakdown attached.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Why it pays for itself</div>
+        <h2>Quoting by phone vs. quoting on your site</h2>
+        <p>A price is usually the first thing a lead wants. Being the first company to give one is an easy way to win the job.</p>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col"></th><th scope="col">Phone and email quotes</th><th scope="col">Prism Estimator</th></tr></thead>
+          <tbody>
+            <tr><td>Time to a price</td><td>Hours to a day, depending on who's free</td><td>Seconds, any time of day</td></tr>
+            <tr><td>Your time per lead</td><td>A call or a back-and-forth email thread</td><td>None until they book</td></tr>
+            <tr><td>Price consistency</td><td>Depends on who quoted and how busy they were</td><td>Same rules every time, from your rate card</td></tr>
+            <tr><td>Surprise fees at the door</td><td>Common when the home's condition wasn't asked about</td><td>Condition, pets and clutter are asked about upfront</td></tr>
+            <tr><td>Upsells</td><td>Only if someone remembers to mention them</td><td>Add-ons, bundle savings and recurring discounts shown on every quote</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </section>
 
-    <div class="group">
-      <h2 class="ghead">Condition</h2>
-      <div class="field">
-        <div class="lbl"><span id="lastLbl">Last professional clean</span></div>
-        <div class="seg small" role="radiogroup" aria-labelledby="lastLbl" id="lastClean"></div>
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">What's inside</div>
+        <h2>Built for how cleaning is actually priced</h2>
       </div>
-      <div class="field">
-        <div class="lbl"><span id="clutLbl">Clutter</span></div>
-        <div class="seg small" role="radiogroup" aria-labelledby="clutLbl" id="clutter"></div>
-      </div>
-      <div class="row2">
-        <div class="field">
-          <div class="lbl"><span>Pets</span></div>
-          <div class="step"><button type="button" id="petsMinus" aria-label="Fewer pets">−</button><output id="pets" aria-live="polite"></output><button type="button" id="petsPlus" aria-label="More pets">+</button></div>
+      <div class="features">
+        <div class="feat">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12l12-7 12 7v12l-12 7-12-7z"/><path d="M5 12l12 7 12-7M17 19v12"/></svg>
+          <h3>Live 3D home model</h3><p>Rooms color-coded by type, furniture in place, empty rooms and boxes for move-outs. It's what makes people stay on the page.</p>
         </div>
-        <div class="field">
-          <div class="lbl"><span>Children</span></div>
-          <button type="button" class="tog" role="switch" id="children" aria-checked="false"><span>Kids at home</span><i></i></button>
+        <div class="feat">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 8h20M7 14h20M7 20h14M7 26h10"/><path d="M24 21l3 3 5-6" stroke-linecap="round"/></svg>
+          <h3>Line-by-line breakdown</h3><p>Base estimate, home factors, add-ons, each discount and the final range. Customers see why it costs what it costs.</p>
+        </div>
+        <div class="feat">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="17" cy="17" r="11"/><path d="M13 21l8-8M13 14h.01M21 20h.01" stroke-linecap="round" stroke-width="2.2"/></svg>
+          <h3>Discounts that can't hurt you</h3><p>Recurring, first-time, bundle, whole-home, off-peak, referral and promos. Capped at a total you set, and never below your minimum visit price.</p>
+        </div>
+        <div class="feat">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 25V15M17 25V9M25 25V18"/><path d="M5 29h24"/></svg>
+          <h3>Upsells on every quote</h3><p>Oven, fridge, cabinets, windows and laundry as add-ons. A deep clean shows what recurring visits would cost afterwards.</p>
+        </div>
+        <div class="feat">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="8" width="22" height="20" rx="3"/><path d="M6 14h22M12 5v6M22 5v6"/></svg>
+          <h3>Booking built in</h3><p>Date and arrival window, contact details, parking, stairs or elevator, entry method and notes for the crew.</p>
+        </div>
+        <div class="feat">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="4" width="14" height="26" rx="3"/><path d="M15 26h4"/></svg>
+          <h3>Made for phones</h3><p>Plenty of customers ask for quotes from their phone. The model stays pinned while customers scroll, with the price and book button always in view.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="group">
-      <h2 class="ghead">Specialty &amp; priorities</h2>
-      <div class="field">
-        <div class="lbl"><span>Specialty surfaces</span><span class="v" style="font-size:10.5px;color:var(--dim)">no extra charge</span></div>
-        <div class="chips" id="surfaces"></div>
-        <input class="txt" id="surfaceNote" maxlength="140" placeholder="e.g. Carrara marble island, sealed oak floors" aria-label="Notes about specialty surfaces" hidden>
+  <section>
+    <div class="wrap split">
+      <div>
+        <div class="eyebrow">Your prices, your rules</div>
+        <h2 style="margin-top:12px">Set up from your rate card</h2>
+        <p class="lead" style="font-size:16px">Everything the customer sees comes from one settings block. Send us your rate card and we fill it in.</p>
+        <ul>
+          <li><span><b>Rates</b>: base visit, per ft², per bedroom and bathroom, extra floors</span></li>
+          <li><span><b>Service types</b>: standard, deep and move-out multipliers</span></li>
+          <li><span><b>Home factors</b>: layout, last clean, clutter, pets, kids</span></li>
+          <li><span><b>Savings</b>: which discounts are on, the cap, your minimum price</span></li>
+          <li><span><b>Brand</b>: name, logo colors, guarantee copy, arrival windows</span></li>
+        </ul>
       </div>
-      <div class="field">
-        <div class="lbl"><label for="priority">Priority room</label></div>
-        <input class="txt" id="priority" maxlength="140" placeholder="e.g. Primary bathroom, guests arriving Friday">
+<pre aria-label="Example settings"><span class="c">// Your rate card</span>
+<span class="k">rates</span>: {
+  base: <span class="n">89</span>, perSqft: <span class="n">0.075</span>,
+  bedroom: <span class="n">16</span>, fullBath: <span class="n">26</span>, halfBath: <span class="n">14</span>,
+  extraFloor: <span class="n">20</span>
+},
+<span class="k">types</span>: {
+  deep:    { mult: <span class="n">1.6</span> },
+  moveout: { mult: <span class="n">1.9</span> }
+},
+<span class="k">addons</span>: [
+  { label: <span class="s">'Inside oven'</span>,  price: <span class="n">35</span> },
+  { label: <span class="s">'Inside fridge'</span>, price: <span class="n">30</span> }
+],
+<span class="k">maxDiscountPct</span>: <span class="n">0.40</span>,  <span class="c">// savings never exceed 40%</span>
+<span class="k">floorPrice</span>: <span class="n">120</span>        <span class="c">// no visit below $120</span></pre>
+    </div>
+  </section>
+
+  <section id="setup">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Getting started</div>
+        <h2>Live on your site within a week</h2>
+      </div>
+      <ol class="setup">
+        <li><small>Step 1</small><h3>Send your rate card</h3><p>Prices, add-ons, discounts, service area and arrival windows.</p></li>
+        <li><small>Step 2</small><h3>We brand it</h3><p>Your name, colors and copy. You review a private preview link.</p></li>
+        <li><small>Step 3</small><h3>Paste one line</h3><p>Add the embed code to any page, or link to it from your "Get a quote" button.</p></li>
+        <li><small>Step 4</small><h3>Connect bookings</h3><p>Requests go to your email, Google or Outlook calendar, or the CRM you already use.</p></li>
+      </ol>
+      <div class="embed">
+        <div class="lbl"><span>The embed code</span><button class="copy" type="button" id="copyBtn">Copy</button></div>
+<pre id="embedCode">&lt;iframe src="https://quote.yourcleaningcompany.com"
+        style="width:100%;height:900px;border:0"
+        title="Instant cleaning quote"&gt;&lt;/iframe&gt;</pre>
       </div>
     </div>
+  </section>
 
-    <div class="group">
-      <h2 class="ghead">Add-ons</h2>
-      <div class="chips" id="addons"></div>
-      <p class="note" id="bundleNote"></p>
+  <section id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Pricing</div>
+        <h2>Costs less than one cleaning a month</h2>
+        <p>All-in-one field-service suites charge $29–$699 a month and expect you to switch your whole business over. This does one job, quoting and booking, and works with what you already use.</p>
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <div><h3>Starter</h3><p class="for">Solo cleaners and small teams</p></div>
+          <div><div class="amt">$29<small> /month</small></div><div class="setupfee">+ $199 one-time setup</div></div>
+          <ul>
+            <li><span><b>Your brand, rates and add-ons</b></span></li>
+            <li><span>Hosted for you, with a link and embed code</span></li>
+            <li><span>Booking requests sent to your email</span></li>
+            <li><span>2 price updates a year</span></li>
+            <li><span>Email support</span></li>
+          </ul>
+          <a class="btn" href="#contact">Get Starter</a>
+        </div>
+        <div class="plan best">
+          <span class="tag">Most popular</span>
+          <div><h3>Growth</h3><p class="for">Companies running several crews</p></div>
+          <div><div class="amt">$59<small> /month</small></div><div class="setupfee">+ $299 one-time setup</div></div>
+          <ul>
+            <li><span><b>Everything in Starter</b></span></li>
+            <li><span>Bookings written to your Google or Outlook calendar</span></li>
+            <li><span>Your own web address (quote.yourcompany.com)</span></li>
+            <li><span>Discounts, promos and referral codes</span></li>
+            <li><span>Unlimited price updates</span></li>
+          </ul>
+          <a class="btn primary" href="#contact">Get Growth</a>
+        </div>
+        <div class="plan">
+          <div><h3>Own it</h3><p class="for">Agencies and multi-location brands</p></div>
+          <div><div class="amt">$1,490<small> once</small></div><div class="setupfee">no monthly fee</div></div>
+          <ul>
+            <li><span><b>Full source code license</b></span></li>
+            <li><span>Host it anywhere, change anything</span></li>
+            <li><span>Branding and rate setup included</span></li>
+            <li><span>Connected to your CRM or scheduler</span></li>
+            <li><span>30 days of support after launch</span></li>
+          </ul>
+          <a class="btn" href="#contact">Talk to us</a>
+        </div>
+      </div>
+      <p class="price-note">Prices in USD. Monthly plans cancel anytime. Setup covers branding, your rate card, and a review call before launch.</p>
     </div>
+  </section>
 
-    <div class="group" id="savingsGroup">
-      <h2 class="ghead">Savings</h2>
-      <button type="button" class="tog" role="switch" id="firstTime" aria-checked="false"><span>First time with us<small id="firstNote"></small></span><i></i></button>
-      <div class="field" id="refField" hidden>
-        <div class="lbl"><label for="referral">Referral code</label></div>
-        <input class="txt" id="referral" maxlength="24" autocomplete="off" placeholder="From a friend's invite">
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Questions</div>
+        <h2>Before you ask</h2>
+      </div>
+      <div class="faq">
+        <details><summary>Does it work with my current website?</summary><p>Yes. It runs as its own page, so you can embed it with one line of code or link your existing "Get a quote" button to it. It works on WordPress, Wix, Squarespace, Webflow and custom sites.</p></details>
+        <details><summary>Do I need a developer?</summary><p>No. We set it up with your rates and branding. You paste one line, or send us your site login and we add it.</p></details>
+        <details><summary>Can customers game the price?</summary><p>The quote is a non-binding range, and customers are told the final price is confirmed before work starts. Condition, clutter and pets are asked about upfront, so a home that doesn't match its quote is easy to spot. Discounts can never go past the cap or your minimum price.</p></details>
+        <details><summary>Where do bookings go?</summary><p>Starter sends each request to your email with the full quote breakdown. Growth also writes it to your Google or Outlook calendar. Own it can connect to any CRM or scheduler that accepts web requests.</p></details>
+        <details><summary>Can I change my prices later?</summary><p>Yes. Send us the new numbers. Growth includes unlimited updates, and with Own it you edit one settings block yourself.</p></details>
+        <details><summary>Is the 3D model slow on older phones?</summary><p>It's built to be light. If a device can't show 3D, the price, breakdown and booking still work normally.</p></details>
       </div>
     </div>
-  </aside>
+  </section>
 
-  <aside class="panel quote" aria-label="Your estimate">
-    <div class="q-head"><span class="eyebrow">Your estimate</span><span class="live"><i></i>LIVE</span></div>
-    <div>
-      <div class="price" id="price" aria-live="polite"><sup>$</sup><span id="priceLo">0</span><span class="dash">–</span><span id="priceHi">0</span></div>
-      <div class="per" id="perTxt">per visit</div>
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <div class="eyebrow">Get it for your business</div>
+          <h2 style="margin-top:12px">See it with your own prices</h2>
+          <p>Send your company name and rate card. We'll send back a private preview built with your numbers before you pay anything.</p>
+        </div>
+        <div class="contact-box" id="contactBox"></div>
+      </div>
     </div>
-    <div class="saved" id="saved" hidden></div>
-    <div class="stats">
-      <div><small>Crew</small><b id="stCrew">2</b></div>
-      <div><small>On site</small><b id="stTime">3h</b></div>
-      <div><small>Rooms</small><b id="stRooms">8</b></div>
-    </div>
-    <div class="trans" id="trans" hidden></div>
-    <p class="sec-h">Breakdown</p>
-    <ul class="lines" id="lines"></ul>
-    <p class="sec-h">Ways to save</p>
-    <ul class="opps" id="opps"></ul>
-    <details class="inc" id="inc"><summary>What's included</summary><div class="cols" id="incCols"></div></details>
-    <button class="cta" type="button" data-book>Book this cleaning
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-    <p class="fine">Non-binding estimate. Your final quote is confirmed with you before any work starts. Add-ons are the only extra charges, and every discount is listed on its own line.</p>
-  </aside>
-</section>
-
-<section class="trust wrap" id="trust"></section>
-<section class="trust wrap" id="how" style="padding-top:0"></section>
+  </section>
 </main>
 
-<footer class="wrap"><span id="footBrand">© Prism Clean</span><span>Estimates use the home details you enter. The final quote is confirmed before work starts.</span></footer>
+<footer>
+  <div class="wrap"><span>© <span id="yr"></span> <span data-product>Prism Estimator</span></span><span>The demo uses a sample company and sample prices.</span></div>
+</footer>
 
-<div class="mbar">
-  <div><small>Estimate</small><div class="mp" id="mPrice">$0</div></div>
-  <button class="cta" type="button" data-book>Book this cleaning</button>
-</div>
-
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" hidden>
-  <div class="sheet">
-    <div class="m-head">
-      <div><div class="eyebrow" id="mEyebrow">Book your cleaning</div><h2 id="mTitle">Pick a time</h2></div>
-      <button class="x" type="button" id="mClose" aria-label="Close booking">×</button>
-    </div>
-    <div class="progress" id="mProg"><div>Schedule</div><div>Details</div><div>Confirm</div></div>
-    <form class="m-body" id="mBody" novalidate></form>
-    <div class="m-foot" id="mFoot">
-      <button class="ghost" type="button" id="mBack">Back</button>
-      <button class="cta" type="button" id="mNext">Continue</button>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-/* =========================================================
-   WHITE-LABEL CONFIG — change brand, rates, factors and discounts here.
-   ========================================================= */
-const CONFIG = {
-  brand: 'PRISM CLEAN',
-  tagline: 'Residential cleaning',
-  phone: '(555) 014-2290',
-  currency: '$',
-
-  // Step 1–2: base estimate
-  rates: { base: 89, perSqft: 0.075, bedroom: 16, fullBath: 26, halfBath: 14, extraFloor: 20 },
-  // Step 3: layout multiplier on the base
-  layout: [
-    { id: 'open', label: 'Open-concept', mult: 1.00, note: 'Few walls, quick to move through.' },
-    { id: 'mixed', label: 'Mixed', mult: 1.05, note: 'Some open areas, some closed rooms.' },
-    { id: 'divided', label: 'Highly divided', mult: 1.12, note: 'Many small rooms, doors and corners.' }
-  ],
-  // Step 4: condition factors — added together, capped, then applied once to the base
-  lastClean: [
-    { id: 'recent', label: '< 1 mo', pct: 0 },
-    { id: '1-3', label: '1–3 mo', pct: .05 },
-    { id: '3-6', label: '3–6 mo', pct: .12 },
-    { id: '6+', label: '6 mo+', pct: .25, widen: true }
-  ],
-  clutter: [
-    { id: 'minimal', label: 'Minimal', pct: 0 },
-    { id: 'moderate', label: 'Moderate', pct: .08 },
-    { id: 'heavy', label: 'Heavy', pct: .20, widen: true }
-  ],
-  petPct: .04, maxPets: 6,
-  childPct: .05,
-  conditionCap: .50,
-  // Step 5: service type multiplier
-  types: {
-    standard: { label: 'Standard', mult: 1.0, time: 1.0, desc: 'Dust, vacuum, mop, kitchen and bath surfaces.' },
-    deep:     { label: 'Deep',     mult: 1.6, time: 1.7, desc: 'Baseboards, grout, cabinet fronts, built-up grime.' },
-    moveout:  { label: 'Move-in / Move-out', mult: 1.9, time: 2.0, desc: 'Empty home, inside every cabinet and closet.' }
-  },
-  // Step 6: add-ons — the only line items that raise the price beyond the home's own details
-  addons: [
-    { id: 'oven', label: 'Inside oven', price: 35, hrs: .5 },
-    { id: 'fridge', label: 'Inside fridge', price: 30, hrs: .5 },
-    { id: 'cabinets', label: 'Inside cabinets', price: 40, hrs: .75 },
-    { id: 'windows', label: 'Interior windows', price: 45, hrs: .75 },
-    { id: 'laundry', label: 'Laundry & fold', price: 30, hrs: .6 }
-  ],
-  // Step 7: specialty surfaces — a crew note; set surfaceFee above 0 to bill it as an add-on
-  surfaces: [{ id: 'marble', label: 'Marble / stone' }, { id: 'hardwood', label: 'Hardwood' }, { id: 'leather', label: 'Leather' }],
-  surfaceFee: 0,
-  included: [
-    'Dusting reachable surfaces and fixtures',
-    'Vacuuming and mopping every floor',
-    'Kitchen counters, sink and appliance fronts',
-    'Bathrooms: toilet, tub or shower, sink, mirrors',
-    'Emptying trash and making beds'
-  ],
-
-  // D1: recurring frequency (standard maintenance visits only)
-  freq: [
-    { id: 'once', label: 'One-time', off: 0 },
-    { id: 'monthly', label: 'Monthly', off: .10 },
-    { id: 'biweekly', label: 'Biweekly', off: .15 },
-    { id: 'weekly', label: 'Weekly', off: .20 }
-  ],
-  // D2–D7
-  discounts: {
-    firstTime: { enabled: true, pct: .10, label: 'First-time customer' },
-    bundle:    { enabled: true, min: 3, pct: .10, label: 'Add-on bundle' },
-    wholeHome: { enabled: true, pct: .05, label: 'Whole home' },
-    offPeak:   { enabled: false, pct: .05, days: [2, 3, 4], label: 'Off-peak weekday' },
-    referral:  { enabled: false, amount: 25, label: 'Referral credit' },
-    promo:     { enabled: false, amount: 20, label: 'Seasonal promo' }
-  },
-  maxDiscountPct: .40,   // all discounts together never exceed this share of the subtotal
-  floorPrice: 120,       // discounts never take a visit below this
-  range: { low: .05, high: .08, widen: .04 },
-
-  slots: ['8:00 AM', '10:30 AM', '1:00 PM', '3:30 PM'],
-  access: {
-    parking: ['Driveway', 'Street parking', 'Paid lot or garage', 'No parking nearby'],
-    building: ['Ground level', 'Stairs only', 'Elevator'],
-    entry: ['Someone will be home', 'Lockbox', 'Door or gate code', 'Key handed over']
-  },
-  trust: [
-    ['Bonded & insured', 'Every cleaner is background-checked and covered, so nothing in your home is at risk.'],
-    ['24-hour re-clean', 'Missed a spot? Tell us within a day and we come back to fix it at no charge.'],
-    ['No surprise fees', 'Add-ons you pick are the only extra charges. Every discount shows on its own line.']
-  ],
-  how: [
-    ['01 · Base', 'Base visit plus square footage, bedrooms, bathrooms and extra floors.'],
-    ['02 · Home factors', 'Layout, condition, pets and kids adjust the base once, capped at +50%. Then the service type multiplies it.'],
-    ['03 · Savings', 'Discounts come off last and only lower the price, up to 40% in total.']
-  ],
-  // Wire this to your scheduler/CRM (fetch to your endpoint, Calendly, etc.)
-  onBook(booking) { console.log('Booking request', booking); }
+/* Seller settings: fill in contact before sharing widely */
+const SELLER = {
+  product: 'Prism Estimator',
+  email: '',        // e.g. 'sales@yourdomain.com'
+  link: '',         // e.g. a Calendly or Google Form URL
+  linkLabel: 'Book a 15-minute call'
 };
 
-/* ---------- state (single source of truth) ---------- */
-const state = {
-  sqft: 2200, floors: 2, beds: 3, baths: 2.5,
-  layout: 'mixed', type: 'standard', freq: 'biweekly',
-  lastClean: '1-3', clutter: 'moderate', pets: 1, children: true,
-  surfaces: new Set(['hardwood']), surfaceNote: '', priority: '',
-  addons: new Set(['oven', 'fridge', 'windows']),
-  firstTime: true, referral: '',
-  skipped: new Set()          // room keys like "Bedroom 2@1", toggled in the 3D model
-};
-const LIM = { beds: [1, 8], baths: [1, 6] };
-const SKIPPABLE = { bedroom: 1, bathroom: 1, powder: 1 };
-const $ = s => document.querySelector(s);
-const fmt = n => Math.round(n).toLocaleString('en-US');
-const money = n => CONFIG.currency + fmt(n);
-const pctTxt = p => Math.round(p * 100) + '%';
-const r5 = n => Math.round(n / 5) * 5;
-const pick = (list, id) => list.find(x => x.id === id) || list[0];
-const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+document.querySelectorAll('[data-product]').forEach(el => el.textContent = SELLER.product);
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-const ROOM = {
-  living:   { label: 'Living room', color: '#FFB86B' },
-  kitchen:  { label: 'Kitchen',     color: '#FF7AB6' },
-  bedroom:  { label: 'Bedroom',     color: '#9B7BFF' },
-  bathroom: { label: 'Bathroom',    color: '#5CF2FF' },
-  powder:   { label: 'Half bath',   color: '#5CF2FF' },
-  bonus:    { label: 'Bonus room',  color: '#FFB86B' },
-  stair:    { label: 'Stairs',      color: '#C9D6FF' }
-};
-
-/* =========================================================
-   PRICING — the only function that does price math.
-   Order: 1 size → 2 rooms → 3 layout → 4 condition → 5 service type
-          → 6 add-ons → discounts D1–D7 → cap & floor → range.
-   ========================================================= */
-function countSkipped(set) {
-  const c = { bed: 0, bath: 0, half: 0, total: 0 };
-  set.forEach(k => {
-    if (k.startsWith('Bedroom')) c.bed++;
-    else if (k.startsWith('Bathroom')) c.bath++;
-    else if (k.startsWith('Half bath')) c.half++;
-  });
-  c.total = c.bed + c.bath + c.half;
-  return c;
+// Contact box
+const box = document.getElementById('contactBox');
+if (SELLER.email || SELLER.link) {
+  let h = '';
+  if (SELLER.email) h += `<div class="eyebrow" style="color:var(--mute)">Email</div><div class="v" id="em">${SELLER.email}</div><button class="btn" type="button" id="copyEm">Copy email</button>`;
+  if (SELLER.link) h += `<a class="btn primary" href="${SELLER.link}" target="_blank" rel="noopener">${SELLER.linkLabel}</a>`;
+  box.innerHTML = h;
+  const ce = document.getElementById('copyEm');
+  if (ce) ce.onclick = () => copyText(SELLER.email, ce, 'Copy email');
+} else {
+  box.innerHTML = '<span class="soon">Contact details coming soon</span><p style="margin:0;color:var(--mute);font-size:14px">Try the live demo above in the meantime.</p><a class="btn" href="#demo">Back to the demo</a>';
 }
 
-function estimate(s, opts = {}) {
-  const C = CONFIG, r = C.rates, D = C.discounts, t = C.types[s.type];
-  const rows = [];
-  const row = (sec, k, v, cls = '') => rows.push({ sec, k, v, cls });
-
-  // 1 · size
-  const sizeCost = r.base + s.sqft * r.perSqft + (s.floors - 1) * r.extraFloor;
-  row('base', 'Base visit', r.base);
-  row('base', `${fmt(s.sqft)} ft²`, s.sqft * r.perSqft);
-  if (s.floors > 1) row('base', plural(s.floors - 1, 'extra floor'), (s.floors - 1) * r.extraFloor);
-
-  // 2 · rooms (skipped rooms are not billed)
-  const sk = countSkipped(s.skipped);
-  const fullAll = Math.floor(s.baths), halfAll = s.baths % 1 ? 1 : 0;
-  const beds = Math.max(0, s.beds - sk.bed), full = Math.max(0, fullAll - sk.bath), half = Math.max(0, halfAll - sk.half);
-  if (beds) row('base', plural(beds, 'bedroom'), beds * r.bedroom);
-  if (full) row('base', plural(full, 'full bath'), full * r.fullBath);
-  if (half) row('base', 'Half bath', half * r.halfBath);
-  if (sk.total) row('base', `${plural(sk.total, 'room')} skipped, not billed`, 0, 'note');
-  const B = sizeCost + beds * r.bedroom + full * r.fullBath + half * r.halfBath;
-
-  // 3 · layout
-  const L = pick(C.layout, s.layout);
-  const layoutAdd = B * (L.mult - 1);
-  if (layoutAdd) row('factor', `${L.label} layout +${pctTxt(L.mult - 1)}`, layoutAdd, 'add');
-  const B1 = B + layoutAdd;
-
-  // 4 · condition (adjusts the base only; summed then capped, applied once)
-  const oneTime = s.type !== 'standard';
-  const lc = pick(C.lastClean, s.lastClean), cl = pick(C.clutter, s.clutter);
-  const conds = [];
-  if (lc.pct) {
-    if (oneTime) row('factor', `Last clean ${lc.label}: covered by the ${t.label.toLowerCase()} rate`, 0, 'note');
-    else conds.push([`Last clean ${lc.label} ago`, lc.pct]);
-  }
-  if (cl.pct) conds.push([`${cl.label} clutter`, cl.pct]);
-  if (s.pets > 0) conds.push([plural(s.pets, 'pet'), s.pets * C.petPct]);
-  if (s.children) conds.push(['Children at home', C.childPct]);
-  const pctSum = conds.reduce((a, c) => a + c[1], 0);
-  const pctApplied = Math.min(C.conditionCap, pctSum);
-  const scale = pctSum ? pctApplied / pctSum : 0;
-  conds.forEach(([k, p]) => row('factor', `${k} +${pctTxt(p * scale)}`, B1 * p * scale, 'add'));
-  if (pctSum > C.conditionCap) row('factor', `Home factors capped at +${pctTxt(C.conditionCap)}`, 0, 'note');
-  const B2 = B1 * (1 + pctApplied);
-
-  // 5 · service type
-  const serviceAdd = B2 * (t.mult - 1);
-  if (serviceAdd) row('factor', `${t.label} clean ×${t.mult}`, serviceAdd, 'add');
-  const clean = B2 * t.mult;
-
-  // 6 · add-ons (+ 7 · specialty surfaces, only if a fee is configured)
-  const addons = C.addons.filter(a => s.addons.has(a.id));
-  let addonSum = 0, hrsAdd = 0;
-  addons.forEach(a => { row('addon', a.label, a.price, 'add'); addonSum += a.price; hrsAdd += a.hrs; });
-  const addonOnly = addonSum;
-  if (s.surfaces.size && C.surfaceFee > 0) { row('addon', 'Specialty surface care', C.surfaceFee * s.surfaces.size, 'add'); addonSum += C.surfaceFee * s.surfaces.size; }
-  const S = clean + addonSum;
-
-  // discounts — computed on fixed bases, never on each other
-  const disc = [], avail = [];
-  const f = pick(C.freq, s.freq);
-  if (s.type === 'standard') {
-    if (f.off) disc.push({ id: 'freq', short: `${f.label.toLowerCase()} visits`, k: `${f.label} frequency −${pctTxt(f.off)}`, v: clean * f.off });
-    else avail.push({ k: 'Recurring visits', why: 'Weekly saves 20%, biweekly 15%, monthly 10%.' });
-  } else if (s.type === 'deep') {
-    avail.push({ k: 'Recurring visits', why: 'Applies to the maintenance visits after this deep clean, not to the deep clean itself.' });
-  }
-  if (D.firstTime.enabled) {
-    if (s.firstTime) disc.push({ id: 'first', short: 'first-time', k: `${D.firstTime.label} −${pctTxt(D.firstTime.pct)}`, v: clean * D.firstTime.pct });
-  }
-  if (D.bundle.enabled) {
-    if (addons.length >= D.bundle.min) disc.push({ id: 'bundle', short: 'add-on bundle', k: `${D.bundle.label} −${pctTxt(D.bundle.pct)} of add-ons`, v: addonOnly * D.bundle.pct });
-    else avail.push({ k: D.bundle.label, why: `Pick ${D.bundle.min - addons.length} more add-on${D.bundle.min - addons.length > 1 ? 's' : ''} to take ${pctTxt(D.bundle.pct)} off all add-ons.` });
-  }
-  if (D.wholeHome.enabled) {
-    if (!sk.total) disc.push({ id: 'whole', short: 'whole home', k: `${D.wholeHome.label} −${pctTxt(D.wholeHome.pct)}`, v: clean * D.wholeHome.pct });
-    else avail.push({ k: D.wholeHome.label, why: `Include every bedroom and bathroom to save ${pctTxt(D.wholeHome.pct)}.` });
-  }
-  if (D.offPeak.enabled) {
-    if (opts.offPeak) disc.push({ id: 'offpeak', short: 'off-peak day', k: `${D.offPeak.label} −${pctTxt(D.offPeak.pct)}`, v: clean * D.offPeak.pct });
-    else avail.push({ k: D.offPeak.label, why: `Book a Tuesday–Thursday visit to save ${pctTxt(D.offPeak.pct)}.` });
-  }
-  if (D.referral.enabled) {
-    const code = (s.referral || '').trim();
-    if (code.length >= 4) disc.push({ id: 'ref', short: 'referral', k: `${D.referral.label} (verified at booking)`, v: D.referral.amount });
-    else avail.push({ k: D.referral.label, why: `Enter a friend's code for ${money(D.referral.amount)} off.` });
-  }
-  if (D.promo.enabled) disc.push({ id: 'promo', short: D.promo.label.toLowerCase(), k: D.promo.label, v: D.promo.amount });
-
-  // cap & floor — discounts can only lower the price, never past the cap or floor
-  const raw = disc.reduce((a, d) => a + d.v, 0);
-  const maxD = S * C.maxDiscountPct;
-  const minTotal = Math.min(S, C.floorPrice);
-  let total = S - Math.min(raw, maxD);
-  const capped = raw > maxD;
-  const floored = total < minTotal;
-  if (floored) total = minTotal;
-  const applied = S - total;
-  const k = raw ? applied / raw : 0;
-  disc.forEach(d => { d.v *= k; });
-
-  // range — wider when the home's condition is harder to predict
-  let widen = C.range.high;
-  if (lc.widen) widen += C.range.widen;
-  if (cl.widen) widen += C.range.widen;
-  if (s.pets >= 3) widen += C.range.widen / 2;
-  const high = r5(total * (1 + widen));
-  const low = Math.max(r5(total * (1 - C.range.low)), Math.min(r5(minTotal), r5(total)));
-
-  // crew & time
-  const hours = (s.sqft / 520 + beds * .3 + (full + half * .5) * .45 + (s.floors - 1) * .2) * L.mult * (1 + pctApplied) * t.time + hrsAdd;
-  const crew = hours > 12 ? 4 : hours > 6 ? 3 : 2;
-  const onsite = Math.max(1.5, Math.round(hours / crew * 2) / 2);
-
-  // deep → maintenance transition (information only; not taken off this visit)
-  let transition = null;
-  if (s.type === 'deep' && !opts.noTransition) {
-    const fr = s.freq === 'once' ? 'biweekly' : s.freq;
-    const fut = estimate({ ...s, type: 'standard', freq: fr, lastClean: 'recent', addons: new Set(), firstTime: false, referral: '' }, { noTransition: true });
-    transition = { freq: pick(C.freq, fr).label, chosen: s.freq !== 'once', low: fut.low, high: fut.high };
-  }
-
-  return { B, S, clean, addonSum, total, low, high, rows, disc, avail, applied, capped, floored, crew, onsite, transition,
-    roomsBilled: beds + full + half, freqLabel: f.label, skipped: sk };
+function copyText(text, btn, label) {
+  const done = ok => { btn.textContent = ok ? 'Copied' : 'Select and copy'; setTimeout(() => btn.textContent = label, 1600); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => done(true), () => done(false)); else done(false);
 }
+const cb = document.getElementById('copyBtn');
+cb.onclick = () => copyText(document.getElementById('embedCode').textContent, cb, 'Copy');
 
-/* ---------- controls ---------- */
-const ICONS = {
-  standard: '<svg viewBox="0 0 38 38" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="30" height="30" rx="9" opacity=".35"/><path d="M12 25c4-1 6-5 7-12 1 7 3 11 7 12"/><path d="M19 13v-3"/></svg>',
-  deep: '<svg viewBox="0 0 38 38" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="30" height="30" rx="9" opacity=".35"/><path d="M19 9l2.4 6.6L28 18l-6.6 2.4L19 27l-2.4-6.6L10 18l6.6-2.4z"/></svg>',
-  moveout: '<svg viewBox="0 0 38 38" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="30" height="30" rx="9" opacity=".35"/><path d="M11 15l8-4 8 4v10l-8 4-8-4z"/><path d="M11 15l8 4 8-4M19 19v10"/></svg>'
-};
-
-function seg(el, items, cur, onPick, disabledFn) {
-  el.innerHTML = '';
-  items.forEach(it => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.setAttribute('role', 'radio'); b.textContent = it.label;
-    b.setAttribute('aria-checked', String(it.id === cur));
-    if (disabledFn && disabledFn(it)) b.disabled = true;
-    b.onclick = () => onPick(it.id);
-    el.appendChild(b);
-  });
-}
-function chips(el, items, set, onToggle, priceFn) {
-  el.innerHTML = '';
-  items.forEach(a => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'chip'; b.setAttribute('aria-pressed', String(set.has(a.id)));
-    b.innerHTML = a.label + (priceFn ? `<span>${priceFn(a)}</span>` : '');
-    b.onclick = () => { set.has(a.id) ? set.delete(a.id) : set.add(a.id); onToggle(); };
-    el.appendChild(b);
-  });
-}
-
-function renderControls() {
-  const C = CONFIG, D = C.discounts, sq = $('#sqft');
-  sq.value = state.sqft; $('#sqftNum').value = state.sqft;
-  sq.style.setProperty('--p', ((state.sqft - sq.min) / (sq.max - sq.min) * 100) + '%');
-  seg($('#floors'), [1, 2, 3, 4].map(n => ({ id: n, label: String(n) })), state.floors, v => { state.floors = v; changed(true); });
-  $('#beds').textContent = state.beds; $('#baths').textContent = state.baths; $('#pets').textContent = state.pets;
-  $('#bedsMinus').disabled = state.beds <= LIM.beds[0]; $('#bedsPlus').disabled = state.beds >= LIM.beds[1];
-  $('#bathsMinus').disabled = state.baths <= LIM.baths[0]; $('#bathsPlus').disabled = state.baths >= LIM.baths[1];
-  $('#petsMinus').disabled = state.pets <= 0; $('#petsPlus').disabled = state.pets >= C.maxPets;
-
-  const sk = countSkipped(state.skipped);
-  const verb = matchMedia('(hover:hover)').matches ? 'Click' : 'Tap';
-  $('#skipInfo').innerHTML = sk.total
-    ? `<span>Skipping ${[...state.skipped].map(k => k.split('@')[0]).join(', ')}</span><button type="button" class="linkbtn" id="skipReset">Include all</button>`
-    : `<span>Not cleaning a room? ${verb} a bedroom or bathroom in the 3D model to skip it.</span>`;
-  if (sk.total) $('#skipReset').onclick = () => { state.skipped.clear(); changed(false); build(false); };
-
-  seg($('#layout'), C.layout, state.layout, v => { state.layout = v; changed(false); });
-  $('#layoutNote').textContent = pick(C.layout, state.layout).note;
-
-  const types = $('#types'); types.innerHTML = '';
-  Object.entries(C.types).forEach(([id, t]) => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'type'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', String(state.type === id));
-    b.innerHTML = `${ICONS[id] || ICONS.standard}<span><b>${t.label}</b><small>${t.desc}</small></span><span class="m">×${t.mult.toFixed(1)}</span>`;
-    b.onclick = () => { state.type = id; changed(true); };
-    types.appendChild(b);
-  });
-
-  const mo = state.type === 'moveout';
-  seg($('#freq'), C.freq, mo ? 'once' : state.freq, v => { state.freq = v; changed(false); }, it => mo && it.id !== 'once');
-  const f = pick(C.freq, state.freq);
-  $('#freqNote').textContent = mo ? 'Move-in / move-out cleans are one-time visits, so no recurring discount applies.'
-    : state.type === 'deep' ? 'Sets the schedule for maintenance visits after your deep clean. The recurring discount applies to those visits.'
-    : f.off ? `Recurring visits save ${pctTxt(f.off)} on every clean.` : 'Switch to recurring to save up to 20%.';
-
-  seg($('#lastClean'), C.lastClean, state.lastClean, v => { state.lastClean = v; changed(false); });
-  seg($('#clutter'), C.clutter, state.clutter, v => { state.clutter = v; changed(false); });
-  $('#children').setAttribute('aria-checked', String(state.children));
-
-  chips($('#surfaces'), C.surfaces, state.surfaces, () => changed(false));
-  $('#surfaceNote').hidden = !state.surfaces.size;
-
-  chips($('#addons'), C.addons, state.addons, () => changed(false), a => `+${C.currency}${a.price}`);
-  const n = state.addons.size;
-  $('#bundleNote').textContent = !D.bundle.enabled ? '' : n >= D.bundle.min
-    ? `Bundle applied: ${pctTxt(D.bundle.pct)} off your add-ons.`
-    : `Pick ${D.bundle.min} or more to take ${pctTxt(D.bundle.pct)} off all add-ons.`;
-
-  $('#firstTime').hidden = !D.firstTime.enabled;
-  $('#firstTime').setAttribute('aria-checked', String(state.firstTime));
-  $('#firstNote').textContent = `${pctTxt(D.firstTime.pct)} off your first clean`;
-  $('#refField').hidden = !D.referral.enabled;
-  $('#savingsGroup').hidden = !D.firstTime.enabled && !D.referral.enabled;
-}
-
-let Q = estimate(state), shown = [0, 0], target = [Q.low, Q.high];
-function rangeTxt(q) { return `${money(q.low)}–${money(q.high)}`; }
-function savedTxt(q) {
-  if (!q.applied) return '';
-  const names = q.disc.filter(d => d.v > .5).map(d => d.short);
-  const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' + ' + names.at(-1) : names[0];
-  return `You saved <b>${money(q.applied)}</b> with ${list}.`;
-}
-
-function renderQuote() {
-  Q = estimate(state);
-  if (Q.low !== target[0] || Q.high !== target[1]) { const p = $('#price'); p.classList.add('bump'); clearTimeout(p._t); p._t = setTimeout(() => p.classList.remove('bump'), 350); }
-  target = [Q.low, Q.high];
-
-  const mo = state.type === 'moveout';
-  $('#perTxt').textContent = mo ? 'One-time move-in / move-out clean'
-    : state.type === 'deep' ? 'One-time deep clean'
-    : state.freq === 'once' ? 'One-time visit' : `Per visit, ${Q.freqLabel.toLowerCase()}`;
-
-  const sv = $('#saved'); const st = savedTxt(Q);
-  sv.hidden = !st; sv.innerHTML = st;
-
-  $('#stCrew').textContent = Q.crew + ' pros';
-  $('#stTime').textContent = Q.onsite + ' h';
-  const roomCount = plan.flat().filter(r => r.type !== 'stair').length - Q.skipped.total;
-  $('#stRooms').textContent = roomCount;
-
-  const tr = $('#trans');
-  if (Q.transition) {
-    tr.hidden = false;
-    tr.innerHTML = Q.transition.chosen
-      ? `After this deep clean, your ${Q.transition.freq.toLowerCase()} maintenance visits drop to <b>${money(Q.transition.low)}–${money(Q.transition.high)}</b>.`
-      : `Switch to recurring after this deep clean and biweekly maintenance visits drop to <b>${money(Q.transition.low)}–${money(Q.transition.high)}</b>.`;
-  } else tr.hidden = true;
-
-  const L = [];
-  const secs = [['base', 'Base estimate'], ['factor', 'Home factors'], ['addon', 'Add-ons']];
-  secs.forEach(([id, h]) => {
-    const rs = Q.rows.filter(r => r.sec === id);
-    if (!rs.length && id !== 'addon') return;
-    L.push(`<li class="h"><span>${h}</span></li>`);
-    if (!rs.length) L.push(`<li class="note"><span>None selected</span><span></span></li>`);
-    rs.forEach(r => L.push(`<li class="${r.cls}"><span>${r.k}</span><span>${r.cls === 'note' ? '' : (r.cls === 'add' ? '+' : '') + money(r.v)}</span></li>`));
-    if (id === 'base') L.push(`<li class="sub"><span>Base estimate</span><span>${money(Q.B)}</span></li>`);
-  });
-  L.push(`<li class="sub"><span>Subtotal before savings</span><span>${money(Q.S)}</span></li>`);
-  if (Q.disc.length) {
-    L.push(`<li class="h"><span>Savings</span></li>`);
-    Q.disc.forEach(d => L.push(`<li class="disc"><span>${d.k}</span><span>−${money(d.v)}</span></li>`));
-    if (Q.capped) L.push(`<li class="note"><span>Savings capped at ${pctTxt(CONFIG.maxDiscountPct)} of the subtotal</span><span></span></li>`);
-    if (Q.floored) L.push(`<li class="note"><span>Minimum visit price is ${money(CONFIG.floorPrice)}</span><span></span></li>`);
-  }
-  L.push(`<li class="tot"><span>Estimated range</span><span>${rangeTxt(Q)}</span></li>`);
-  $('#lines').innerHTML = L.join('');
-
-  $('#opps').innerHTML = Q.disc.map(d => `<li class="on"><span>${d.k.replace(/ −.*$/, '')}<small>Saving ${money(d.v)}</small></span></li>`).join('') +
-    Q.avail.map(a => `<li><span>${a.k}<small>${a.why}</small></span></li>`).join('') ||
-    '<li><span>No savings available for this service.</span></li>';
-
-  $('#incCols').innerHTML = `<div><h5>Included</h5><ul>${CONFIG.included.map(i => `<li>${i}</li>`).join('')}</ul></div>
-    <div><h5>Add-on only</h5><ul>${CONFIG.addons.map(a => `<li class="${state.addons.has(a.id) ? 'added' : ''}">${a.label}${state.addons.has(a.id) ? ' · added' : ''}</li>`).join('')}</ul></div>`;
-
-  $('#tele').innerHTML = `<b>${rangeTxt(Q)}</b><span class="tele-x"> · ${fmt(state.sqft)} FT² · ${state.floors} FL · ${state.beds} BD · ${state.baths} BA</span>`;
-}
-
-let plan = [];
-function changed(structural) {
-  if (state.type === 'moveout') state.freq = 'once';
-  plan = planFloors(state);
-  const keys = new Set(plan.flat().map(r => r.key));
-  [...state.skipped].forEach(k => { if (!keys.has(k)) state.skipped.delete(k); });
-  renderControls(); renderQuote();
-  if (structural) build(true);
-}
-
-$('#sqft').addEventListener('input', e => {
-  state.sqft = +e.target.value; $('#sqftNum').value = state.sqft;
-  e.target.style.setProperty('--p', ((state.sqft - e.target.min) / (e.target.max - e.target.min) * 100) + '%');
-  renderQuote(); sqftLive();
-});
-$('#sqftNum').addEventListener('change', e => {
-  let v = Math.round((+e.target.value || 400) / 50) * 50; v = Math.min(6000, Math.max(400, v));
-  state.sqft = v; changed(false); sqftLive();
-});
-$('#bedsMinus').onclick = () => { state.beds--; changed(true); };
-$('#bedsPlus').onclick = () => { state.beds++; changed(true); };
-$('#bathsMinus').onclick = () => { state.baths -= .5; changed(true); };
-$('#bathsPlus').onclick = () => { state.baths += .5; changed(true); };
-$('#petsMinus').onclick = () => { state.pets = Math.max(0, state.pets - 1); changed(false); };
-$('#petsPlus').onclick = () => { state.pets = Math.min(CONFIG.maxPets, state.pets + 1); changed(false); };
-$('#children').onclick = () => { state.children = !state.children; changed(false); };
-$('#firstTime').onclick = () => { state.firstTime = !state.firstTime; changed(false); };
-$('#surfaceNote').addEventListener('input', e => { state.surfaceNote = e.target.value; });
-$('#priority').addEventListener('input', e => { state.priority = e.target.value; });
-$('#referral').addEventListener('input', e => { state.referral = e.target.value; renderQuote(); });
-
-/* ---------- floor plan ---------- */
-function planFloors(s) {
-  const F = s.floors, fl = Array.from({ length: F }, () => []);
-  fl[0].push({ type: 'living' }, { type: 'kitchen' });
-  const upper = F > 1 ? Array.from({ length: F - 1 }, (_, i) => i + 1) : [0];
-  let beds = s.beds, full = Math.floor(s.baths);
-  const half = s.baths % 1 ? 1 : 0;
-  if (F > 1 && beds > 2 * (F - 1)) { fl[0].push({ type: 'bedroom' }); beds--; }
-  if (F > 1 && full > F - 1) { fl[0].push({ type: 'bathroom' }); full--; }
-  for (let i = 0; i < beds; i++) fl[upper[i % upper.length]].push({ type: 'bedroom' });
-  for (let i = 0; i < full; i++) fl[upper[i % upper.length]].push({ type: 'bathroom' });
-  if (half) fl[0].push({ type: 'powder' });
-  fl.forEach(l => { if (!l.length) l.push({ type: 'bonus' }); });
-  if (F > 1) fl.forEach(l => l.unshift({ type: 'stair' }));
-  let bn = 0, ba = 0;
-  fl.forEach((l, f) => l.forEach(r => {
-    r.floor = f;
-    r.label = r.type === 'bedroom' ? `Bedroom ${++bn}` : r.type === 'bathroom' ? `Bathroom ${++ba}` : ROOM[r.type].label;
-    r.key = `${r.label}@${f}`;
-  }));
-  return fl;
-}
-function dims(sqft, floors) {
-  const a = sqft / floors, wft = Math.sqrt(a * 1.4);
-  return { W: wft / 10, D: a / wft / 10 };
-}
-function layout(list, W, D) {
-  const n = list.length, cols = Math.max(1, Math.min(n, Math.round(Math.sqrt(n * W / D)))), rows = Math.ceil(n / cols);
-  const out = [], cd = D / rows; let i = 0;
-  for (let r = 0; r < rows; r++) {
-    const k = Math.min(cols, n - i), cw = W / k;
-    for (let c = 0; c < k; c++) out.push({ ...list[i++], w: cw, d: cd, x: -W / 2 + cw * (c + .5), z: -D / 2 + cd * (r + .5) });
-  }
-  return out;
-}
-
-/* =========================================================
-   3D
-   ========================================================= */
-const FH = 1, GAP = .07;
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const viz = $('#viz'), canvas = $('#c');
-let renderer = null;
-try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' }); }
-catch (e) { renderer = null; }
-
-const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x05080F, .045);
-const camera = new THREE.PerspectiveCamera(36, 1, .1, 200);
-if (renderer) { renderer.setClearColor(0x05080F, 1); renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); }
-
-scene.add(new THREE.AmbientLight(0x6a7cff, .35));
-scene.add(new THREE.HemisphereLight(0x9fd8ff, 0x1a0a33, .7));
-const sun = new THREE.DirectionalLight(0xffffff, .8); sun.position.set(6, 12, 5); scene.add(sun);
-const core = new THREE.PointLight(0x5CF2FF, 1.2, 14); core.position.set(0, 2, 0); scene.add(core);
-
-function glowTex(inner, outer, size = 128) {
-  const c = document.createElement('canvas'); c.width = c.height = size;
-  const g = c.getContext('2d'), gr = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-  gr.addColorStop(0, inner); gr.addColorStop(1, outer);
-  g.fillStyle = gr; g.fillRect(0, 0, size, size);
-  return new THREE.CanvasTexture(c);
-}
-function scanTex() {
-  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
-  const gr = g.createRadialGradient(128, 128, 20, 128, 128, 180);
-  gr.addColorStop(0, 'rgba(92,242,255,0.05)'); gr.addColorStop(1, 'rgba(92,242,255,0.28)');
-  g.fillStyle = gr; g.fillRect(0, 0, 256, 256);
-  g.strokeStyle = 'rgba(160,250,255,0.95)'; g.lineWidth = 5; g.strokeRect(3, 3, 250, 250);
-  g.strokeStyle = 'rgba(160,250,255,0.25)'; g.lineWidth = 1;
-  for (let i = 32; i < 256; i += 32) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i, 256); g.moveTo(0, i); g.lineTo(256, i); g.stroke(); }
-  return new THREE.CanvasTexture(c);
-}
-
-const grid = new THREE.PolarGridHelper(16, 24, 12, 96, 0x2a4a80, 0x17264a);
-grid.material.transparent = true; grid.material.opacity = .55; scene.add(grid);
-const halo = new THREE.Mesh(new THREE.CircleGeometry(7, 64), new THREE.MeshBasicMaterial({ map: glowTex('rgba(92,160,255,0.45)', 'rgba(92,160,255,0)'), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
-halo.rotation.x = -Math.PI / 2; halo.position.y = -.01; scene.add(halo);
-const ring = new THREE.Mesh(new THREE.RingGeometry(.96, 1, 96), new THREE.MeshBasicMaterial({ color: 0x5CF2FF, transparent: true, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending }));
-ring.rotation.x = -Math.PI / 2; ring.position.y = .01; scene.add(ring);
-
-const scanner = new THREE.Mesh(new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ map: scanTex(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }));
-scene.add(scanner);
-
-const PN = 520, pPos = new Float32Array(PN * 3), pVel = new Float32Array(PN);
-const pGeo = new THREE.BufferGeometry(); pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-const pMat = new THREE.PointsMaterial({ size: .09, map: glowTex('rgba(255,255,255,1)', 'rgba(140,220,255,0)', 64), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, color: 0xBFF8FF });
-const sparks = new THREE.Points(pGeo, pMat); scene.add(sparks);
-function seedP(i, W, D, H, anywhere) {
-  pPos[i * 3] = (Math.random() - .5) * (W + 1.4);
-  pPos[i * 3 + 1] = anywhere ? Math.random() * H : 0;
-  pPos[i * 3 + 2] = (Math.random() - .5) * (D + 1.4);
-  pVel[i] = .15 + Math.random() * .45;
-}
-
-let house = null, rooms = [], anims = [], W0 = 3, D0 = 3, tScale = { x: 1, z: 1 };
-let theta = .75, phi = 1.08, radius = 14, tRadius = 14, userZoom = 1, camY = 1, tCamY = 1;
-
-function dispose(o) {
-  o.traverse(n => {
-    if (n.geometry) n.geometry.dispose();
-    if (n.material) (Array.isArray(n.material) ? n.material : [n.material]).forEach(m => m.dispose());
-  });
-}
-function mat(col, op) {
-  return new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: .35, transparent: true, opacity: op, depthWrite: false, roughness: .25, metalness: .1, side: THREE.DoubleSide });
-}
-function solid(col) {
-  return new THREE.MeshStandardMaterial({ color: 0xDCE6FF, emissive: col, emissiveIntensity: .35, roughness: .45, metalness: .15 });
-}
-function box(g, w, h, d, x, y, z, m) {
-  const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); b.position.set(x, y + h / 2, z); g.add(b); return b;
-}
-
-function furnish(g, type, w, d, col, moveout) {
-  if (type === 'stair') {
-    const m = solid(col), n = 8, sw = Math.min(.36, w * .6), sd = (d * .8) / n, sh = FH * .86 / n;
-    for (let i = 0; i < n; i++) box(g, sw, sh * (i + 1), sd, 0, 0, -d * .4 + sd * (i + .5), m);
-    return;
-  }
-  if (moveout) {
-    const m = new THREE.MeshStandardMaterial({ color: 0xC9A26B, emissive: 0x6b4a20, emissiveIntensity: .35, roughness: .8 });
-    const s = Math.min(.2, w * .25, d * .25);
-    box(g, s, s, s, -w * .2, 0, d * .15, m);
-    box(g, s * .9, s * .8, s * .9, -w * .2 + s * 1.05, 0, d * .15, m);
-    if (type !== 'powder') box(g, s * .85, s * .8, s * .85, -w * .2 + s * .5, s, d * .15, m);
-    return;
-  }
-  const m = solid(col);
-  if (type === 'bedroom') {
-    const bw = Math.min(.5, w * .55), bd = Math.min(.65, d * .6), z = -d / 2 + bd / 2 + .06;
-    box(g, bw, .1, bd, 0, 0, z, m);
-    box(g, bw * .8, .05, .1, 0, .1, z - bd / 2 + .08, m);
-    if (w > bw + .3) box(g, .12, .1, .12, bw / 2 + .12, 0, -d / 2 + .1, m);
-  } else if (type === 'bathroom') {
-    const tw = Math.min(.28, w * .4), td = Math.min(.55, d * .7);
-    box(g, tw, .13, td, -w / 2 + tw / 2 + .05, 0, -d / 2 + td / 2 + .05, m);
-    box(g, Math.min(.3, w * .35), .22, .14, w / 2 - Math.min(.3, w * .35) / 2 - .05, 0, -d / 2 + .1, m);
-    box(g, .1, .1, .14, w / 2 - .12, 0, d / 2 - .14, m);
-  } else if (type === 'powder') {
-    box(g, Math.min(.24, w * .5), .22, .12, 0, 0, -d / 2 + .09, m);
-    box(g, .1, .1, .14, 0, 0, d / 2 - .14, m);
-  } else if (type === 'living') {
-    const sw = Math.min(.8, w * .65);
-    box(g, sw, .12, .22, 0, 0, -d / 2 + .16, m);
-    box(g, sw, .14, .06, 0, .0, -d / 2 + .06, m);
-    box(g, sw * .45, .06, .22, 0, 0, -d / 2 + .5, m);
-    const rug = new THREE.Mesh(new THREE.PlaneGeometry(sw * 1.1, Math.min(.7, d * .55)).rotateX(-Math.PI / 2), mat(new THREE.Color(col), .22));
-    rug.position.set(0, .01, -d / 2 + .45); g.add(rug);
-  } else if (type === 'kitchen') {
-    const cw = w * .82;
-    box(g, cw, .2, .16, 0, 0, -d / 2 + .1, m);
-    box(g, .16, .2, Math.min(.6, d * .5), -w / 2 + .1, 0, -d / 2 + .3 + .08, m);
-    box(g, Math.min(.5, w * .4), .2, .22, .1, 0, Math.min(.2, d * .1), m);
-  } else if (type === 'bonus') {
-    box(g, Math.min(.45, w * .5), .17, .2, 0, 0, -d / 2 + .14, m);
-  }
-}
-
-function build(animate) {
-  if (!renderer) return;
-  if (house) { scene.remove(house); dispose(house); }
-  house = new THREE.Group(); scene.add(house);
-  rooms = []; anims = [];
-  const { W, D } = dims(state.sqft, state.floors); W0 = W; D0 = D; tScale = { x: 1, z: 1 };
-  const now = performance.now(), mo = state.type === 'moveout';
-  plan.forEach((list, f) => {
-    const y = f * FH;
-    const slab = new THREE.Mesh(new THREE.BoxGeometry(W + .14, .05, D + .14), new THREE.MeshStandardMaterial({ color: 0x1a2a50, emissive: 0x24406e, emissiveIntensity: .5, transparent: true, opacity: .85, roughness: .3, metalness: .4 }));
-    slab.position.y = y; house.add(slab);
-    const se = new THREE.LineSegments(new THREE.EdgesGeometry(slab.geometry), new THREE.LineBasicMaterial({ color: 0x8FE8FF, transparent: true, opacity: .55 }));
-    se.position.y = y; house.add(se);
-    layout(list, W, D).forEach((cell, i) => {
-      const skip = state.skipped.has(cell.key);
-      const R = ROOM[cell.type], col = new THREE.Color(skip ? '#3A4560' : R.color), g = new THREE.Group();
-      const w = cell.w - GAP, d = cell.d - GAP, h = FH * .86;
-      const geo = new THREE.BoxGeometry(w, h, d); geo.translate(0, h / 2, 0);
-      const base = skip ? .03 : .09;
-      const shell = new THREE.Mesh(geo, mat(col, base));
-      shell.userData = { cell, base, floor: f, skip, skippable: !!SKIPPABLE[cell.type] };
-      rooms.push(shell);
-      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: skip ? .45 : .8 }));
-      const tile = new THREE.Mesh(new THREE.PlaneGeometry(w, d).rotateX(-Math.PI / 2), mat(col, skip ? .05 : .16));
-      tile.position.y = .006;
-      g.add(shell, edges, tile);
-      if (skip) {
-        // an X on the floor marks a skipped room
-        const xg = new THREE.BufferGeometry().setFromPoints([
-          new THREE.Vector3(-w * .3, .02, -d * .3), new THREE.Vector3(w * .3, .02, d * .3),
-          new THREE.Vector3(w * .3, .02, -d * .3), new THREE.Vector3(-w * .3, .02, d * .3)]);
-        g.add(new THREE.LineSegments(xg, new THREE.LineBasicMaterial({ color: 0x8794B2, transparent: true, opacity: .7 })));
-      } else furnish(g, cell.type, w, d, col, mo);
-      g.position.set(cell.x, y + .025, cell.z);
-      if (animate && !reduce) { g.scale.set(1, .001, 1); anims.push({ o: g, t0: now + f * 180 + i * 60 }); }
-      house.add(g);
-    });
-  });
-  const F = state.floors;
-  const rg = new THREE.ConeGeometry(Math.SQRT1_2, .85, 4, 1, true); rg.rotateY(Math.PI / 4);
-  const roof = new THREE.Mesh(rg, new THREE.MeshStandardMaterial({ color: 0x9B7BFF, emissive: 0x9B7BFF, emissiveIntensity: .4, transparent: true, opacity: .08, depthWrite: false, side: THREE.DoubleSide }));
-  const re = new THREE.LineSegments(new THREE.EdgesGeometry(rg), new THREE.LineBasicMaterial({ color: 0xB9A6FF, transparent: true, opacity: .7 }));
-  const rgp = new THREE.Group(); rgp.add(roof, re);
-  rgp.scale.set(W + .3, 1, D + .3); rgp.position.y = F * FH + .025 + .425;
-  if (animate && !reduce) { rgp.scale.y = .001; anims.push({ o: rgp, t0: now + F * 180 + 200 }); }
-  house.add(rgp);
-  tRadius = (Math.max(W, D, F * FH * 1.4) * 1.75 + 4.5);
-  tCamY = (F * FH) * .5;
-  ring.scale.setScalar(Math.max(W, D) * .9);
-  const H = F * FH + 1.2;
-  for (let i = 0; i < PN; i++) seedP(i, W, D, H, true);
-  pGeo.attributes.position.needsUpdate = true;
-  sparks.geometry.setDrawRange(0, { standard: 160, deep: PN, moveout: 300 }[state.type]);
-  pMat.color.set({ standard: 0xBFF8FF, deep: 0xE6D9FF, moveout: 0xFFE2B8 }[state.type]);
-}
-
-let liveT = null;
-function sqftLive() {
-  const { W, D } = dims(state.sqft, state.floors);
-  tScale = { x: W / W0, z: D / D0 };
-  tRadius = Math.max(W, D, state.floors * FH * 1.4) * 1.75 + 4.5;
-  clearTimeout(liveT);
-  liveT = setTimeout(() => { if (house) build(false); }, 260);
-}
-
-/* orbit, hover, click-to-skip */
-let drag = false, lx = 0, ly = 0, dx0 = 0, dy0 = 0, lastAct = 0;
-const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(), tip = $('#tip');
-function pickRoom(cx, cy) {
-  if (!renderer || !house) return null;
-  const r = canvas.getBoundingClientRect();
-  mouse.set((cx - r.left) / r.width * 2 - 1, -(cy - r.top) / r.height * 2 + 1);
-  ray.setFromCamera(mouse, camera);
-  const hit = ray.intersectObjects(rooms, false)[0];
-  return hit ? hit.object : null;
-}
-canvas.addEventListener('pointerdown', e => { drag = true; lx = dx0 = e.clientX; ly = dy0 = e.clientY; lastAct = performance.now(); canvas.setPointerCapture(e.pointerId); tip.hidden = true; });
-canvas.addEventListener('pointerup', e => {
-  drag = false; lastAct = performance.now();
-  if (Math.hypot(e.clientX - dx0, e.clientY - dy0) > 6) return;
-  const o = pickRoom(e.clientX, e.clientY);
-  if (!o || !o.userData.skippable) return;
-  const key = o.userData.cell.key;
-  state.skipped.has(key) ? state.skipped.delete(key) : state.skipped.add(key);
-  changed(false); build(false);
-});
-canvas.addEventListener('pointercancel', () => { drag = false; });
-canvas.addEventListener('pointermove', e => {
-  if (drag) {
-    theta -= (e.clientX - lx) * .008; phi = Math.min(1.42, Math.max(.35, phi - (e.clientY - ly) * .006));
-    lx = e.clientX; ly = e.clientY; lastAct = performance.now(); return;
-  }
-  if (e.pointerType !== 'mouse') return;
-  const o = pickRoom(e.clientX, e.clientY);
-  rooms.forEach(m => m.userData.hover = false);
-  if (o) {
-    const u = o.userData; u.hover = true;
-    const ft = Math.round(u.cell.w * 10 * u.cell.d * 10 * house.scale.x * house.scale.z / 5) * 5;
-    tip.innerHTML = `<b>${u.cell.label}</b><span>Floor ${u.floor + 1} · ~${fmt(ft)} ft²</span>` +
-      (u.skippable ? `<em>${u.skip ? 'Skipped · click to include' : 'Click to skip this room'}</em>` : '');
-    const vr = viz.getBoundingClientRect();
-    tip.style.left = (e.clientX - vr.left) + 'px'; tip.style.top = (e.clientY - vr.top) + 'px';
-    tip.hidden = false;
-    canvas.style.cursor = u.skippable ? 'pointer' : '';
-  } else { tip.hidden = true; canvas.style.cursor = ''; }
-});
-canvas.addEventListener('pointerleave', () => { tip.hidden = true; rooms.forEach(m => m.userData.hover = false); });
-canvas.addEventListener('wheel', e => { e.preventDefault(); userZoom = Math.min(1.6, Math.max(.55, userZoom * (1 + e.deltaY * .001))); lastAct = performance.now(); }, { passive: false });
-
-function resize() {
-  if (!renderer) return;
-  const w = viz.clientWidth, h = viz.clientHeight;
-  renderer.setSize(w, h, false); camera.aspect = w / h;
-  camera.fov = w / h < 1 ? 46 : 36;
-  camera.updateProjectionMatrix();
-}
-new ResizeObserver(resize).observe(viz);
-
-function legend() {
-  const items = ['living', 'kitchen', 'bedroom', 'bathroom', 'stair'];
-  $('#legend').innerHTML = items.map(k => `<span><i style="color:${ROOM[k].color};background:${ROOM[k].color}"></i>${ROOM[k].label.replace(' room', '')}</span>`).join('') + '<span class="hint" style="opacity:.6">· drag to orbit · click a room to skip</span>';
-}
-
-const ease = t => { const c = 1.70158; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
-let prev = performance.now();
-function setPrice(lo, hi) {
-  $('#priceLo').textContent = fmt(lo); $('#priceHi').textContent = fmt(hi);
-  $('#mPrice').textContent = `${money(lo)}–${money(hi)}`;
-}
-function tick(now) {
-  requestAnimationFrame(tick);
-  const dt = Math.min(.05, (now - prev) / 1000); prev = now;
-
-  if (Math.abs(target[0] - shown[0]) > .5 || Math.abs(target[1] - shown[1]) > .5) {
-    shown = shown.map((v, i) => v + (target[i] - v) * Math.min(1, dt * 9));
-    setPrice(shown[0], shown[1]);
-  } else if (shown[0] !== target[0] || shown[1] !== target[1]) { shown = target.slice(); setPrice(shown[0], shown[1]); }
-
-  if (!renderer || !house) return;
-  const t = now / 1000;
-  anims = anims.filter(a => {
-    const p = Math.min(1, Math.max(0, (now - a.t0) / 650));
-    a.o.scale.y = Math.max(.001, ease(p)); return p < 1;
-  });
-  house.scale.x += (tScale.x - house.scale.x) * Math.min(1, dt * 10);
-  house.scale.z += (tScale.z - house.scale.z) * Math.min(1, dt * 10);
-
-  const F = state.floors, H = F * FH + .9, W = W0 * house.scale.x, D = D0 * house.scale.z;
-  const speed = { standard: .5, deep: .8, moveout: .65 }[state.type] * (reduce ? .3 : 1);
-  const sy = (.5 - .5 * Math.cos(t * speed)) * H;
-  scanner.position.y = sy; scanner.scale.set(W + .7, 1, D + .7);
-
-  rooms.forEach(m => {
-    const wy = m.parent.position.y, near = m.userData.skip ? 0 : Math.max(0, 1 - Math.abs(sy - (wy + .43)) / .55);
-    m.material.opacity = m.userData.base + near * .22 + (m.userData.hover ? .3 : 0);
-    m.material.emissiveIntensity = .35 + near * .6 + (m.userData.hover ? .8 : 0);
-  });
-
-  const rp = (t * .45) % 1; ring.scale.setScalar(Math.max(W, D) * (.75 + rp * .9)); ring.material.opacity = (1 - rp) * .6;
-  core.intensity = 1 + Math.sin(t * 2) * .3; core.position.y = sy;
-
-  const cnt = sparks.geometry.drawRange.count;
-  for (let i = 0; i < Math.min(cnt, PN); i++) {
-    pPos[i * 3 + 1] += pVel[i] * dt * (reduce ? .2 : 1);
-    pPos[i * 3] += Math.sin(t + i) * dt * .05;
-    if (pPos[i * 3 + 1] > H + .6) seedP(i, W, D, H, false);
-  }
-  pGeo.attributes.position.needsUpdate = true;
-
-  if (!drag && now - lastAct > 2500 && !reduce) theta += dt * .14;
-  radius += (tRadius * userZoom - radius) * Math.min(1, dt * 4);
-  camY += (tCamY - camY) * Math.min(1, dt * 4);
-  camera.position.set(radius * Math.sin(phi) * Math.sin(theta), camY + radius * Math.cos(phi), radius * Math.sin(phi) * Math.cos(theta));
-  camera.lookAt(0, camY, 0);
-  renderer.render(scene, camera);
-}
-
-/* =========================================================
-   Booking
-   ========================================================= */
-const bk = { step: 0, date: null, time: null, name: '', email: '', phone: '', address: '', zip: '',
-  parking: CONFIG.access.parking[0], building: CONFIG.access.building[0], entry: '', notes: '' };
-const modal = $('#modal'), mBody = $('#mBody');
-let lastFocus = null;
-const days = (() => {
-  const out = [], d = new Date(); d.setHours(12, 0, 0, 0);
-  while (out.length < 12) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0) out.push(new Date(d)); }
-  return out;
-})();
-const dKey = d => d.toISOString().slice(0, 10);
-const dayOf = key => days.find(x => dKey(x) === key);
-const slotFull = (d, s) => { let h = 0; for (const ch of dKey(d) + s) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h % 4 === 0; };
-const isOffPeak = d => !!d && CONFIG.discounts.offPeak.enabled && CONFIG.discounts.offPeak.days.includes(d.getDay());
-const bookQuote = () => estimate(state, { offPeak: isOffPeak(dayOf(bk.date)) });
-
-function openBook() {
-  lastFocus = document.activeElement; bk.step = 0; modal.hidden = false; document.body.style.overflow = 'hidden'; renderBook();
-  setTimeout(() => $('#mClose').focus(), 50);
-}
-function closeBook() { modal.hidden = true; document.body.style.overflow = ''; if (lastFocus) lastFocus.focus(); }
-document.querySelectorAll('[data-book]').forEach(b => b.addEventListener('click', openBook));
-$('#mClose').onclick = closeBook;
-modal.addEventListener('click', e => { if (e.target === modal) closeBook(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) closeBook(); });
-
-function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
-function homeLine() { return `${fmt(state.sqft)} ft² · ${plural(state.floors, 'floor')} · ${state.beds} bd · ${state.baths} ba · ${pick(CONFIG.layout, state.layout).label.toLowerCase()}`; }
-function crewNotes() {
-  const n = [];
-  if (state.pets) n.push(plural(state.pets, 'pet'));
-  if (state.children) n.push('kids at home');
-  n.push(`${pick(CONFIG.clutter, state.clutter).label.toLowerCase()} clutter`);
-  if (state.surfaces.size) n.push(CONFIG.surfaces.filter(s => state.surfaces.has(s.id)).map(s => s.label).join(', ') + (state.surfaceNote.trim() ? ` (${state.surfaceNote.trim()})` : ''));
-  if (state.priority.trim()) n.push('priority: ' + state.priority.trim());
-  if (state.skipped.size) n.push('skip ' + [...state.skipped].map(k => k.split('@')[0]).join(', '));
-  return n.join(' · ');
-}
-
-function renderBook() {
-  const q = bookQuote();
-  const titles = ['Pick a time', 'Where are we cleaning?', 'Review and confirm', 'Request received'];
-  $('#mTitle').textContent = titles[bk.step];
-  $('#mProg').hidden = bk.step === 3;
-  [...$('#mProg').children].forEach((d, i) => d.classList.toggle('on', i <= bk.step));
-  $('#mBack').style.visibility = bk.step === 0 || bk.step === 3 ? 'hidden' : 'visible';
-  $('#mNext').textContent = bk.step === 2 ? `Confirm · ${rangeTxt(q)}` : bk.step === 3 ? 'Done' : 'Continue';
-  const op = CONFIG.discounts.offPeak;
-
-  if (bk.step === 0) {
-    mBody.innerHTML = `
-      <div class="field"><div class="lbl"><span id="dLbl">Date</span>${op.enabled ? `<span class="v" style="font-size:11px;color:var(--ok)">Tue–Thu saves ${pctTxt(op.pct)}</span>` : ''}</div>
-        <div class="dates" role="radiogroup" aria-labelledby="dLbl">${days.map((d, i) => `<button type="button" class="date" role="radio" data-d="${i}" aria-checked="${bk.date === dKey(d)}"><small${isOffPeak(d) ? ' class="op"' : ''}>${d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}</small><b>${d.getDate()}</b><small>${d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}</small></button>`).join('')}</div></div>
-      <div class="field"><div class="lbl"><span id="sLbl">Arrival window</span><span class="v" style="font-size:11px;color:var(--mute)">${q.crew} pros · about ${q.onsite} h</span></div>
-        ${bk.date ? `<div class="slots" role="radiogroup" aria-labelledby="sLbl">${CONFIG.slots.map(s => { const f = slotFull(dayOf(bk.date), s); return `<button type="button" class="slot" role="radio" data-s="${s}" aria-checked="${bk.time === s}" ${f ? 'disabled aria-label="' + s + ' fully booked"' : ''}>${s}</button>`; }).join('')}</div>` : '<p class="note" style="margin:0">Choose a date to see open times.</p>'}</div>
-      <p class="err" id="e0"></p>`;
-    mBody.querySelectorAll('[data-d]').forEach(b => b.onclick = () => { bk.date = dKey(days[+b.dataset.d]); bk.time = null; renderBook(); });
-    mBody.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { bk.time = b.dataset.s; renderBook(); });
-  } else if (bk.step === 1) {
-    const f = (id, label, type, cls = '', extra = '') => `<label class="${cls}" id="w-${id}">${label}<input id="b-${id}" name="${id}" type="${type}" value="${esc(bk[id])}" maxlength="120" ${extra}><span class="err" id="e-${id}"></span></label>`;
-    const sel = (id, label, opts, ph) => `<label id="w-${id}">${label}<select id="b-${id}" name="${id}">${ph ? `<option value="">${ph}</option>` : ''}${opts.map(o => `<option${bk[id] === o ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select><span class="err" id="e-${id}"></span></label>`;
-    mBody.innerHTML = `<div class="form">
-      ${f('name', 'Full name', 'text', 'full', 'autocomplete="name"')}
-      ${f('email', 'Email', 'email', '', 'autocomplete="email"')}
-      ${f('phone', 'Phone', 'tel', '', 'autocomplete="tel"')}
-      ${f('address', 'Street address', 'text', '', 'autocomplete="street-address"')}
-      ${f('zip', 'ZIP code', 'text', '', 'autocomplete="postal-code" inputmode="numeric"')}
-      <p class="sub-h">Access <span class="note" style="font-family:var(--f-body);font-weight:500">· for the crew, doesn't change the price</span></p>
-      ${sel('parking', 'Parking', CONFIG.access.parking)}
-      ${sel('building', 'Getting inside', CONFIG.access.building)}
-      ${sel('entry', 'Entry method', CONFIG.access.entry, 'Choose one')}
-      <label class="full">Access notes (optional)<textarea id="b-notes" rows="2" maxlength="300" placeholder="Gate code location, which door, buzzer name…">${esc(bk.notes)}</textarea></label>
-    </div>`;
-    mBody.querySelectorAll('input,textarea,select').forEach(i => i.addEventListener(i.tagName === 'SELECT' ? 'change' : 'input', () => { bk[i.id.slice(2)] = i.value; }));
-    setTimeout(() => $('#b-name') && $('#b-name').focus(), 30);
-  } else if (bk.step === 2) {
-    const d = dayOf(bk.date);
-    const ad = CONFIG.addons.filter(a => state.addons.has(a.id)).map(a => a.label).join(', ') || 'None';
-    const t = CONFIG.types[state.type];
-    const svc = state.type === 'standard' ? `${t.label} clean · ${q.freqLabel.toLowerCase()}` : `${t.label} clean · one-time`;
-    mBody.innerHTML = `<div class="review">
-      <div><span>Service</span><span>${svc}</span></div>
-      <div><span>Home</span><span>${homeLine()}</span></div>
-      <div><span>Add-ons</span><span>${esc(ad)}</span></div>
-      <div><span>For the crew</span><span>${esc(crewNotes())}</span></div>
-      <div><span>When</span><span>${d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} · ${bk.time}</span></div>
-      <div><span>Where</span><span>${esc(bk.address)}, ${esc(bk.zip)}</span></div>
-      <div><span>Access</span><span>${esc(bk.parking)} · ${esc(bk.building)} · ${esc(bk.entry)}${bk.notes.trim() ? '<br>' + esc(bk.notes.trim()) : ''}</span></div>
-      <div><span>Contact</span><span>${esc(bk.name)}<br>${esc(bk.email)} · ${esc(bk.phone)}</span></div>
-      ${q.applied ? `<div><span>Savings</span><span style="color:var(--ok)">−${money(q.applied)}</span></div>` : ''}
-      <div class="big"><span>Estimate</span><span>${rangeTxt(q)}</span></div>
-    </div><p class="note" style="margin:0">This is a non-binding estimate. We confirm the final price with you before any work starts. You pay after the clean, and you can reschedule free up to 24 hours before.</p>`;
-  } else {
-    const ref = 'PC-' + Math.random().toString(36).slice(2, 7).toUpperCase();
-    const d = dayOf(bk.date);
-    const { step, ...contact } = bk;
-    const payload = { ref, ...contact, home: { ...state, addons: [...state.addons], surfaces: [...state.surfaces], skipped: [...state.skipped] },
-      estimate: { low: q.low, high: q.high, point: Math.round(q.total), savings: Math.round(q.applied), lines: q.rows.concat(q.disc.map(x => ({ sec: 'discount', k: x.k, v: -x.v }))) }, crew: q.crew, hours: q.onsite };
-    try { CONFIG.onBook(payload); } catch (e) { }
-    mBody.innerHTML = `<div class="done">
-      <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-      <h3>${d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })} · ${bk.time}</h3>
-      <p>Thanks, ${esc(bk.name.trim().split(' ')[0])}. Your request for a ${CONFIG.types[state.type].label.toLowerCase()} clean at ${esc(bk.address)} is in, estimated at ${rangeTxt(q)}. We confirm the final price before work starts. Keep this reference:</p>
-      <span class="ref">${ref}</span>
-      <p class="demo">Demo mode: requests are not sent anywhere until CONFIG.onBook is connected to a scheduler.</p>
-    </div>`;
-  }
-}
-
-function validate() {
-  if (bk.step === 0) {
-    if (!bk.date || !bk.time) { $('#e0').textContent = !bk.date ? 'Pick a date to continue.' : 'Pick an arrival window to continue.'; return false; }
-    return true;
-  }
-  if (bk.step === 1) {
-    const rules = {
-      name: v => v.trim().length >= 2 || 'Enter your name.',
-      email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Enter an email like you@example.com.',
-      phone: v => v.replace(/\D/g, '').length >= 10 || 'Enter a 10-digit phone number.',
-      address: v => v.trim().length >= 5 || 'Enter the street address.',
-      zip: v => /^\d{5}(-\d{4})?$/.test(v.trim()) || 'Enter a 5-digit ZIP code.',
-      entry: v => !!v || 'Tell us how the crew gets in.'
-    };
-    let ok = true, first = null;
-    Object.entries(rules).forEach(([k, fn]) => {
-      const r = fn(bk[k]); const bad = r !== true;
-      $('#w-' + k).classList.toggle('bad', bad); $('#e-' + k).textContent = bad ? r : '';
-      if (bad) { ok = false; first = first || k; }
-    });
-    if (first) $('#b-' + first).focus();
-    return ok;
-  }
-  return true;
-}
-$('#mNext').onclick = () => { if (bk.step === 3) return closeBook(); if (!validate()) return; bk.step++; renderBook(); };
-$('#mBack').onclick = () => { bk.step = Math.max(0, bk.step - 1); renderBook(); };
-mBody.addEventListener('submit', e => { e.preventDefault(); $('#mNext').click(); });
-
-/* ---------- copy ---------- */
-function brand() {
-  $('#brandName').textContent = CONFIG.brand; $('#brandTag').textContent = CONFIG.tagline;
-  $('#footBrand').textContent = '© ' + new Date().getFullYear() + ' ' + CONFIG.brand;
-  $('#trust').innerHTML = CONFIG.trust.map(([h, p]) => `<div><span class="k">Guarantee</span><b>${h}</b><p>${p}</p></div>`).join('');
-  $('#how').innerHTML = CONFIG.how.map(([h, p]) => `<div><span class="k">${h.split('·')[0].trim()}</span><b>${h.split('·')[1].trim()}</b><p>${p}</p></div>`).join('');
-}
-
-brand(); legend();
-plan = planFloors(state);
-renderControls(); renderQuote();
-if (renderer) { resize(); build(true); } else $('#tele').textContent = '3D preview unavailable on this device';
-requestAnimationFrame(tick);
+// Demo: page scroll passes over the demo until the visitor clicks into it
+const shield = document.getElementById('shield');
+shield.onclick = () => { shield.hidden = true; document.getElementById('demoFrame').focus(); };
+document.addEventListener('click', e => { if (!e.target.closest('.frame')) shield.hidden = false; });
 </script>
-
 </body>
 </html>

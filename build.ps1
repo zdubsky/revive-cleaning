@@ -1,5 +1,6 @@
 # Wraps prism-clean.html (the artifact source, which has no <html>/<head>) into a
-# standalone index.html that any static host can serve. Run after editing the source:
+# standalone demo.html that any static host can serve. index.html is the sales
+# overview page and is edited directly. Run after editing prism-clean.html:
 #   powershell -ExecutionPolicy Bypass -File build.ps1
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $body = [IO.File]::ReadAllText((Join-Path $here 'prism-clean.html'), [Text.Encoding]::UTF8)
@@ -14,5 +15,5 @@ $head = @'
 <body>
 '@
 $out = $head + "`n" + $body + "`n</body>`n</html>`n"
-[IO.File]::WriteAllText((Join-Path $here 'index.html'), $out, (New-Object Text.UTF8Encoding($false)))
-Write-Output "Wrote index.html ($($out.Length) chars)"
+[IO.File]::WriteAllText((Join-Path $here 'demo.html'), $out, (New-Object Text.UTF8Encoding($false)))
+Write-Output "Wrote demo.html ($($out.Length) chars)"
