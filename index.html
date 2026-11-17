@@ -476,8 +476,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
 /* Seller settings: fill in contact before sharing widely */
 const SELLER = {
   product: 'Prism Estimator',
-  email: '',        // e.g. 'sales@yourdomain.com'
-  link: '',         // e.g. a Calendly or Google Form URL
+  phone: '(724) 640-8768',   // shown publicly
+  link: '',         // optional: a Calendly or Google Form URL
   linkLabel: 'Book a 15-minute call'
 };
 
@@ -486,13 +486,18 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 
 // Contact box
 const box = document.getElementById('contactBox');
-if (SELLER.email || SELLER.link) {
+if (SELLER.phone || SELLER.link) {
   let h = '';
-  if (SELLER.email) h += `<div class="eyebrow" style="color:var(--mute)">Email</div><div class="v" id="em">${SELLER.email}</div><button class="btn" type="button" id="copyEm">Copy email</button>`;
-  if (SELLER.link) h += `<a class="btn primary" href="${SELLER.link}" target="_blank" rel="noopener">${SELLER.linkLabel}</a>`;
+  if (SELLER.phone) {
+    const tel = SELLER.phone.replace(/[^\d+]/g, '');
+    h += `<div class="eyebrow" style="color:var(--mute)">Call or text</div><div class="v" style="font-size:22px">${SELLER.phone}</div>
+      <a class="btn primary" href="tel:${tel}">Call now</a>
+      <button class="btn" type="button" id="copyPh">Copy number</button>`;
+  }
+  if (SELLER.link) h += `<a class="btn" href="${SELLER.link}" target="_blank" rel="noopener">${SELLER.linkLabel}</a>`;
   box.innerHTML = h;
-  const ce = document.getElementById('copyEm');
-  if (ce) ce.onclick = () => copyText(SELLER.email, ce, 'Copy email');
+  const cp = document.getElementById('copyPh');
+  if (cp) cp.onclick = () => copyText(SELLER.phone, cp, 'Copy number');
 } else {
   box.innerHTML = '<span class="soon">Contact details coming soon</span><p style="margin:0;color:var(--mute);font-size:14px">Try the live demo above in the meantime.</p><a class="btn" href="#demo">Back to the demo</a>';
 }
