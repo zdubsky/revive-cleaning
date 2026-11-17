@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Revive Cleaning Company | Greensburg, PA</title>
+<meta name="description" content="Residential, commercial, deep, move-in/out and post-construction cleaning in Greensburg, PA. Insured, trusted for 6+ years. Get an instant quote and see open times.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: calm light page with one dark "quote studio" band; red used sparingly as the only accent */
+:root{
+  --paper:#FAFAF8;
+  --card:#FFFFFF;
+  --ink:#121316;
+  --ink-2:#4B4E57;
+  --ink-3:#8A8D96;
+  --line:#E8E6E1;
+  --red:#D7263D;
+  --red-soft:#FCEBED;
+  --char:#0B0C0F;
+  --ok:#17A35B;
+  --f-display:'Sora','Inter',system-ui,sans-serif;
+  --f-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:1160px;margin-inline:auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+section{padding-block:88px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.02em}
+h1{font-size:clamp(40px,6vw,76px);line-height:1.02;font-weight:800}
+h2{font-size:clamp(28px,3.6vw,44px);line-height:1.08;font-weight:700}
+h3{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.label b{color:var(--red);font-weight:600}
+.sub{color:var(--ink-2);font-size:clamp(16px,1.5vw,18.5px);max-width:56ch;margin:20px 0 0}
+.head{display:flex;flex-direction:column;gap:14px;max-width:680px;margin-bottom:44px}
+.head p{margin:0;color:var(--ink-2);max-width:60ch}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(23,163,91,.14);vertical-align:middle}
+.dot.live{animation:pulse 1.8s infinite}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 22px;border-radius:12px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid var(--line);background:var(--card);transition:transform .15s,border-color .2s,background .2s}
+.btn:hover{border-color:var(--ink);transform:translateY(-1px)}
+.btn.red{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 10px 30px -12px rgba(215,38,61,.7)}
+.btn.red:hover{background:#B91D33;border-color:#B91D33}
+.btn svg{width:18px;height:18px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:30;background:rgba(250,250,248,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{width:34px;height:34px}
+.logo b{display:block;font-family:var(--f-display);font-weight:800;font-size:16px;letter-spacing:.06em;color:var(--red);line-height:1}
+.logo small{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.04em;margin-top:3px}
+.nav nav{display:flex;align-items:center;gap:26px}
+.nav nav a{text-decoration:none;font-size:14px;font-weight:500;color:var(--ink-2)}
+.nav nav a:hover{color:var(--ink)}
+.nav .btn{padding:10px 16px;font-size:14px}
+
+/* hero */
+.hero{position:relative;padding-block:72px 56px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 70% at 70% 30%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 70% at 70% 30%,#000 20%,transparent 75%);opacity:.7}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero h1 em{font-style:normal;color:var(--red)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.proof{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:30px;color:var(--ink-2);font-size:14px}
+.proof span{display:inline-flex;align-items:center;gap:8px}
+.proof svg{width:16px;height:16px;color:var(--red)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 80px -40px rgba(18,19,22,.25);overflow:hidden;min-width:0}
+.scan{position:relative;height:230px;background:var(--char);overflow:hidden}
+.scan svg{position:absolute;inset:0;width:100%;height:100%}
+.scan .beam{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#FF4D5A,transparent);box-shadow:0 0 24px 4px rgba(255,77,90,.45);animation:beam 4.5s ease-in-out infinite}
+.scan .tag{position:absolute;left:14px;top:12px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;color:#A0A2AC;text-transform:uppercase}
+.panel-body{padding:20px 22px 22px;display:grid;gap:14px}
+.next{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.next b{display:block;font-family:var(--f-display);font-size:22px;font-weight:700;letter-spacing:-.01em}
+.next small{color:var(--ink-3);font-size:13px}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mini div{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.mini small{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.mini b{font-family:var(--f-display);font-size:15px;font-weight:600}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;min-width:0;transition:border-color .2s,transform .2s}
+.svc:hover{border-color:var(--ink);transform:translateY(-2px)}
+.svc svg{width:30px;height:30px;color:var(--red)}
+.svc p{margin:0;color:var(--ink-2);font-size:14.5px;flex:1}
+.svc .how{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.svc .how b{color:var(--red);font-weight:600}
+
+/* availability */
+.cal{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+.cal-main{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;min-width:0}
+.cal-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.navbtns{display:flex;gap:6px}
+.navbtns button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:16px}
+.navbtns button:disabled{opacity:.35;cursor:not-allowed}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.day{border:1px solid var(--line);border-radius:14px;padding:10px 6px 12px;text-align:center;background:var(--paper);min-width:0}
+.day.closed{opacity:.45}
+.day .dn{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase}
+.day .dd{font-family:var(--f-display);font-size:22px;font-weight:700;line-height:1.2}
+.day .cnt{font-size:11.5px;color:var(--ink-3);margin-bottom:8px}
+.slots{display:grid;gap:5px}
+.slot{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 2px;font-family:var(--f-mono);font-size:11.5px;transition:.15s}
+.slot:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+.slot:disabled{background:transparent;color:var(--ink-3);text-decoration:line-through;cursor:not-allowed;border-style:dashed}
+.slot[aria-pressed=true]{background:var(--red);border-color:var(--red);color:#fff}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;border:1px solid var(--line);background:var(--card);vertical-align:-2px;margin-right:6px}
+.legend i.t{border-style:dashed;background:transparent}
+.legend i.s{background:var(--red);border-color:var(--red)}
+.pick{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:14px;position:sticky;top:90px}
+.pick .when{font-family:var(--f-display);font-size:20px;font-weight:700;line-height:1.25}
+.pick p{margin:0;color:var(--ink-2);font-size:14px}
+.pick .btn{width:100%}
+
+/* quote studio */
+.studio{background:var(--char);color:#F4F4F6;padding-block:88px 72px;position:relative;overflow:hidden}
+.studio::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 50% at 50% 0%,rgba(255,77,90,.18),transparent 70%)}
+.studio .wrap{position:relative}
+.studio .head p{color:#A0A2AC}
+.studio .label{color:#7C7F89}
+.frame{position:relative;border:1px solid rgba(255,255,255,.1);border-radius:20px;overflow:hidden;height:880px;background:#0B0C0F;box-shadow:0 40px 120px -40px rgba(255,77,90,.35)}
+.frame iframe{display:block;width:100%;height:100%;border:0}
+.shield{position:absolute;inset:0;border:0;padding:0;background:linear-gradient(180deg,transparent 55%,rgba(11,12,15,.6));display:flex;align-items:flex-end;justify-content:center;cursor:pointer}
+.shield span{margin-bottom:26px;padding:12px 18px;border-radius:999px;background:rgba(20,21,26,.92);border:1px solid rgba(255,120,128,.45);font-weight:600;font-size:14px;color:#F4F4F6;display:inline-flex;gap:10px;align-items:center}
+.shield i{width:8px;height:8px;border-radius:50%;background:#FF4D5A;box-shadow:0 0 10px #FF4D5A;animation:pulse 1.6s infinite}
+.mobile-quote{display:none;border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:24px;background:#15161B;gap:14px;flex-direction:column}
+.mobile-quote p{margin:0;color:#A0A2AC}
+.studio-note{margin-top:14px;color:#7C7F89;font-size:13px}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+.steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:18px}
+.steps li::before{content:"0" counter(s);font-family:var(--f-mono);font-size:12px;color:var(--red);letter-spacing:.14em;display:block;margin-bottom:10px}
+.steps p{margin:8px 0 0;color:var(--ink-2);font-size:15px}
+
+/* about */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.about p{color:var(--ink-2);margin:16px 0 0;max-width:56ch}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.facts div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.facts b{display:block;font-family:var(--f-display);font-size:26px;font-weight:700;letter-spacing:-.02em}
+.facts span{color:var(--ink-2);font-size:14px}
+.hiring{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;background:var(--red-soft);border:1px solid #F5C9CF;border-radius:16px;padding:18px 20px}
+.hiring b{font-family:var(--f-display);font-size:16px}
+.hiring p{margin:2px 0 0;font-size:14px;color:var(--ink-2)}
+.hiring a{font-weight:600;color:var(--red);text-decoration:none;white-space:nowrap}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
+.contact-card{background:var(--ink);color:#fff;border-radius:22px;padding:clamp(28px,4vw,44px);display:flex;flex-direction:column;gap:18px}
+.contact-card h2{color:#fff}
+.contact-card p{margin:0;color:#B8BAC2}
+.contact-card .ctas{margin-top:6px}
+.contact-card .btn{background:transparent;color:#fff;border-color:rgba(255,255,255,.25)}
+.contact-card .btn.red{background:var(--red);border-color:var(--red)}
+.lines{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:8px 22px}
+.line{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.line:last-child{border-bottom:none}
+.line small{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.line span{font-weight:500;overflow-wrap:anywhere;min-width:0}
+.line button{border:1px solid var(--line);background:transparent;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:600}
+footer{border-top:1px solid var(--line);color:var(--ink-3);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:26px 36px}
+
+@keyframes pulse{50%{opacity:.35}}
+@keyframes beam{0%{top:88%}50%{top:12%}100%{top:88%}}
+
+@media (max-width:1040px){
+  .services{grid-template-columns:repeat(3,1fr)}
+  .cal{grid-template-columns:1fr}
+  .pick{position:static}
+}
+@media (max-width:860px){
+  .hero .wrap,.about,.contact{grid-template-columns:1fr}
+  .nav nav a:not(.btn){display:none}
+  .steps{grid-template-columns:1fr}
+  .frame{display:none}
+  .mobile-quote{display:flex}
+  .days{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(96px,1fr);overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+  .day{scroll-snap-align:start}
+  .navbtns{display:none}
+}
+@media (max-width:560px){
+  .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  section{padding-block:60px}
+  .hero{padding-block:44px 40px}
+  .services{grid-template-columns:1fr 1fr}
+  .services .svc:last-child{grid-column:1/-1}
+  .ctas{flex-direction:column}
+  .facts{grid-template-columns:1fr 1fr}
+  .line{grid-template-columns:1fr auto}
+  .line small{grid-column:1/-1;margin-bottom:-8px}
+  .slot{font-size:12px;padding:8px 2px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Revive Cleaning Company, home">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M4 20 20 6l16 14" stroke="#D7263D" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9.5 16.5V33h21V16.5" stroke="#121316" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M27 10.5V5.5h3.4v8" stroke="#121316" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M16.5 33v-7.5h7V33" stroke="#D7263D" stroke-width="2.2"/>
+      </svg>
+      <span><b>REVIVE</b><small>Cleaning Company, LLC</small></span>
+    </a>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#availability">Availability</a>
+      <a href="#quote">Instant quote</a>
+      <a href="#about">About</a>
+      <a class="btn red" href="#quote">Get a quote</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="label">Greensburg, PA · <b>Insured</b> · 6+ years</div>
+        <h1 style="margin-top:18px">Revive your space. <em>Book in minutes.</em></h1>
+        <p class="sub">Residential, commercial and specialty cleaning. Build your home, see your price instantly, and pick a time that works for you.</p>
+        <div class="ctas">
+          <a class="btn red" href="#quote">Get my instant quote
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn" href="tel:+17243095907">Call (724) 309-5907</a>
+        </div>
+        <div class="proof">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Insured</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>Price before you book</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>See open times first</span>
+        </div>
+      </div>
+
+      <aside class="panel" aria-label="Next opening">
+        <div class="scan" aria-hidden="true">
+          <span class="tag">Scanning your home</span>
+          <svg viewBox="0 0 400 230" preserveAspectRatio="xMidYMid meet">
+            <g fill="none" stroke-linejoin="round">
+              <path d="M200 40 320 100 200 160 80 100Z" stroke="rgba(255,255,255,.18)"/>
+              <path d="M80 100v60l120 60 120-60v-60" stroke="rgba(255,255,255,.28)"/>
+              <path d="M200 160v60" stroke="rgba(255,255,255,.28)"/>
+              <path d="M80 100 200 30 320 100" stroke="#FF4D5A" stroke-width="2"/>
+              <path d="M140 130l60 30 60-30M200 100v60M140 70v60M260 70v60" stroke="rgba(255,77,90,.45)"/>
+              <path d="M110 150l40 20v-22l-40-20Z" fill="rgba(111,211,232,.18)" stroke="rgba(111,211,232,.6)"/>
+              <path d="M215 175l45-22v-20l-45 22Z" fill="rgba(155,123,255,.18)" stroke="rgba(155,123,255,.6)"/>
+            </g>
+          </svg>
+          <div class="beam"></div>
+        </div>
+        <div class="panel-body">
+          <div class="next">
+            <div><small><span class="dot live"></span>&nbsp; Next opening</small><b id="nextOpen">Checking…</b></div>
+            <a class="btn red" href="#availability" style="padding:10px 14px;font-size:14px">See times</a>
+          </div>
+          <div class="mini">
+            <div><small>Quote</small><b>~1 min</b></div>
+            <div><small>Services</small><b>5</b></div>
+            <div><small>Open</small><b id="openDays">Mon–Sat</b></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="services" style="padding-top:40px">
+    <div class="wrap">
+      <div class="head">
+        <div class="label">Services</div>
+        <h2>Whatever the space, we bring it back to life</h2>
+      </div>
+      <div class="services">
+        <div class="svc">
+          <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 14 15 5l11 9"/><path d="M7 12v13h16V12"/></svg>
+          <h3>Residential</h3><p>Regular home cleaning on your schedule: weekly, every two weeks, or monthly.</p>
+          <span class="how"><b>Instant quote</b></span>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M15 4l2.6 7.4L25 14l-7.4 2.6L15 24l-2.6-7.4L5 14l7.4-2.6z"/></svg>
+          <h3>Deep cleaning</h3><p>Baseboards, grout, cabinet fronts and the build-up a regular clean doesn't reach.</p>
+          <span class="how"><b>Instant quote</b></span>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 11l9-5 9 5v10l-9 5-9-5z"/><path d="M6 11l9 5 9-5M15 16v10"/></svg>
+          <h3>Move-in / move-out</h3><p>Empty-home cleaning, inside every cabinet and closet, ready for keys or a deposit check.</p>
+          <span class="how"><b>Instant quote</b></span>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 24h20M8 24V12l7-5 7 5v12"/><path d="M12 24v-6h6v6"/><path d="M20 5l4 4" stroke-linecap="round"/></svg>
+          <h3>Post-construction</h3><p>Fine dust, debris and residue cleared after a renovation or new build.</p>
+          <span class="how"><b>Instant quote</b></span>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="6" y="5" width="18" height="21" rx="1.5"/><path d="M10 10h3M17 10h3M10 15h3M17 15h3M13 26v-5h4v5"/></svg>
+          <h3>Commercial</h3><p>Offices, storefronts and shared spaces, scheduled around your business hours.</p>
+          <span class="how">Quote by phone</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="availability" style="padding-top:24px">
+    <div class="wrap">
+      <div class="head">
+        <div class="label">Availability</div>
+        <h2>See when we're free, then book</h2>
+        <p>Pick an open arrival window. It carries over to your quote, so booking takes one tap at the end.</p>
+      </div>
+      <div class="cal">
+        <div class="cal-main">
+          <div class="cal-top">
+            <span class="status" id="calStatus"><span class="dot"></span>Loading open times…</span>
+            <div class="navbtns"><button type="button" id="prevWk" aria-label="Previous week">←</button><button type="button" id="nextWk" aria-label="Next week">→</button></div>
+          </div>
+          <div class="days" id="days"></div>
+          <div class="legend"><span><i></i>Open</span><span><i class="t"></i>Taken</span><span><i class="s"></i>Your pick</span></div>
+        </div>
+        <aside class="pick" aria-live="polite">
+          <div class="label">Your arrival window</div>
+          <div class="when" id="pickWhen">Nothing picked yet</div>
+          <p id="pickNote">Choose an open time. It's saved to your quote automatically.</p>
+          <a class="btn red" id="pickGo" href="#quote">Get my quote and book</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="studio" id="quote">
+    <div class="wrap">
+      <div class="head">
+        <div class="label">Instant quote</div>
+        <h2>Build your home. See your price.</h2>
+        <p>Enter your square footage, rooms and the kind of clean you need. Your home takes shape in 3D and the price updates as you go, with every line explained.</p>
+      </div>
+      <div class="frame">
+        <iframe id="quoteFrame" src="quote.html?embed=1" title="Instant quote and booking" loading="lazy"></iframe>
+        <button class="shield" id="shield" type="button" aria-label="Start your instant quote"><span><i></i>Click to start your quote</span></button>
+      </div>
+      <div class="mobile-quote">
+        <h3 style="color:#F4F4F6">Get your price in about a minute</h3>
+        <p>Opens the full-screen quote builder. Your picked time comes with you.</p>
+        <a class="btn red" id="mobileQuote" href="quote.html">Start my instant quote</a>
+      </div>
+      <p class="studio-note">Quotes are estimates. We confirm the final price with you before any work starts.</p>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="head">
+        <div class="label">How booking works</div>
+        <h2>Three steps, no phone tag</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Pick a time</h3><p>Open arrival windows are shown above. Taken times are crossed out.</p></li>
+        <li><h3>Build your quote</h3><p>Tell us about your home and the clean you need. You see the price range before you share any contact details.</p></li>
+        <li><h3>Send your request</h3><p>Text or email it to us in one tap. We reply to confirm your time and final price.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="about" style="padding-top:24px">
+    <div class="wrap about">
+      <div>
+        <div class="label">About Revive</div>
+        <h2 style="margin-top:14px">Local, insured, and growing</h2>
+        <p>Revive Cleaning Company has served Greensburg and the surrounding area for more than six years. We clean homes, businesses and job sites, from weekly upkeep to the deep, move-out and post-construction jobs others pass on.</p>
+      </div>
+      <div class="facts">
+        <div><b>6+ yrs</b><span>Cleaning around Greensburg</span></div>
+        <div><b>Insured</b><span>On every visit</span></div>
+        <div><b>5</b><span>Types of cleaning</span></div>
+        <div><b>Local</b><span>Based in Greensburg, PA</span></div>
+        <div class="hiring">
+          <div><b>We're hiring</b><p>Join a growing local team. Message us to apply.</p></div>
+          <a href="https://www.facebook.com/p/Revive-Cleaning-Company-LLC-61576721106925/" target="_blank" rel="noopener">Message us on Facebook →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding-top:24px">
+    <div class="wrap contact">
+      <div class="contact-card">
+        <div class="label" style="color:#8A8D96">Contact</div>
+        <h2>Prefer to talk it through?</h2>
+        <p>Call or text for commercial quotes, larger jobs, or anything the quote builder doesn't cover.</p>
+        <div class="ctas">
+          <a class="btn red" href="tel:+17243095907">Call (724) 309-5907</a>
+          <a class="btn" href="sms:+17243095907">Send a text</a>
+        </div>
+      </div>
+      <div class="lines">
+        <div class="line"><small>Phone</small><span>(724) 309-5907</span><button type="button" data-copy="(724) 309-5907">Copy</button></div>
+        <div class="line"><small>Email</small><span>Candis@revivecleaningcompanyllc.com</span><button type="button" data-copy="Candis@revivecleaningcompanyllc.com">Copy</button></div>
+        <div class="line"><small>Based in</small><span>Greensburg, PA</span><span></span></div>
+        <div class="line"><small>Facebook</small><span><a href="https://www.facebook.com/p/Revive-Cleaning-Company-LLC-61576721106925/" target="_blank" rel="noopener">Revive Cleaning Company, LLC</a></span><span></span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© <span id="yr"></span> Revive Cleaning Company, LLC · Greensburg, PA</span><span>Insured · Residential · Commercial · Specialty</span></div>
+</footer>
+
+<script>
+/* =========================================================
+   AVAILABILITY
+   Without a calendar connected, every window in open hours shows as open.
+   To show real bookings live, make a Google Calendar public ("See only free/busy")
+   and fill in its ID and a browser API key restricted to this site.
+   ========================================================= */
+const AVAIL = {
+  slots: ['8:00 AM', '10:30 AM', '1:00 PM', '3:30 PM'],  // must match the quote builder
+  slotHours: 2.5,
+  closedDays: [0],            // 0 = Sunday
+  minNoticeHours: 18,         // no same-evening bookings
+  weeks: 2,
+  googleCalendarId: '',       // e.g. 'abc123@group.calendar.google.com'
+  googleApiKey: ''            // Google Cloud API key with the Calendar API enabled
+};
+
+const $ = s => document.querySelector(s);
+const dKey = d => { const x = new Date(d); x.setHours(12, 0, 0, 0); return x.toISOString().slice(0, 10); };
+let busy = [], live = false, week = 0, pick = null;
+
+function slotStart(key, slot) {
+  const [hm, ap] = slot.split(' '); let [h, m] = hm.split(':').map(Number);
+  if (ap === 'PM' && h !== 12) h += 12; if (ap === 'AM' && h === 12) h = 0;
+  const [y, mo, d] = key.split('-').map(Number);
+  return new Date(y, mo - 1, d, h, m);
+}
+// Shared with the quote builder (same origin) so both show the same open times.
+window.reviveSlotTaken = (key, slot) => {
+  const s = slotStart(key, slot), e = new Date(s.getTime() + AVAIL.slotHours * 36e5);
+  if (s.getTime() < Date.now() + AVAIL.minNoticeHours * 36e5) return true;
+  if (AVAIL.closedDays.includes(s.getDay())) return true;
+  return busy.some(b => b.start < e && b.end > s);
+};
+
+async function loadBusy() {
+  if (!AVAIL.googleCalendarId || !AVAIL.googleApiKey) return false;
+  try {
+    const tMin = new Date(), tMax = new Date(Date.now() + (AVAIL.weeks * 7 + 2) * 864e5);
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(AVAIL.googleCalendarId)}/events?key=${AVAIL.googleApiKey}&timeMin=${tMin.toISOString()}&timeMax=${tMax.toISOString()}&singleEvents=true&maxResults=250`;
+    const r = await fetch(url); if (!r.ok) return false;
+    const j = await r.json();
+    busy = (j.items || []).filter(e => e.transparency !== 'transparent').map(e => ({
+      start: new Date(e.start.dateTime || e.start.date + 'T00:00:00'),
+      end: new Date(e.end.dateTime || e.end.date + 'T00:00:00')
+    }));
+    return true;
+  } catch (e) { return false; }
+}
+
+function dayList() {
+  const out = [], d = new Date(); d.setHours(12, 0, 0, 0);
+  for (let i = 1; i <= AVAIL.weeks * 7; i++) { const x = new Date(d); x.setDate(d.getDate() + i); out.push(x); }
+  return out;
+}
+const fmtDay = (d, o) => d.toLocaleDateString('en-US', o);
+
+function renderCal() {
+  const all = dayList(), narrow = matchMedia('(max-width:860px)').matches;
+  const view = narrow ? all : all.slice(week * 7, week * 7 + 7);
+  $('#days').innerHTML = view.map(d => {
+    const key = dKey(d), closed = AVAIL.closedDays.includes(d.getDay());
+    const open = AVAIL.slots.filter(s => !window.reviveSlotTaken(key, s)).length;
+    return `<div class="day${closed ? ' closed' : ''}">
+      <div class="dn">${fmtDay(d, { weekday: 'short' })}</div>
+      <div class="dd">${d.getDate()}</div>
+      <div class="cnt">${closed ? 'Closed' : open ? open + ' open' : 'Full'}</div>
+      <div class="slots">${closed ? '' : AVAIL.slots.map(s => {
+        const taken = window.reviveSlotTaken(key, s), on = pick && pick.date === key && pick.time === s;
+        return `<button type="button" class="slot" data-k="${key}" data-s="${s}" ${taken ? 'disabled aria-label="' + s + ' taken"' : ''} aria-pressed="${on}">${s.replace(':00', '').replace(' ', '')}</button>`;
+      }).join('')}</div></div>`;
+  }).join('');
+  $('#prevWk').disabled = week === 0; $('#nextWk').disabled = week >= AVAIL.weeks - 1;
+  document.querySelectorAll('.slot:not(:disabled)').forEach(b => b.onclick = () => choose(b.dataset.k, b.dataset.s));
+}
+
+function choose(date, time) {
+  pick = { date, time };
+  const d = slotStart(date, time);
+  $('#pickWhen').textContent = `${fmtDay(d, { weekday: 'long', month: 'long', day: 'numeric' })}, ${time}`;
+  $('#pickNote').textContent = 'Saved. Build your quote below and this time is filled in when you book.';
+  const f = $('#quoteFrame');
+  try { f.contentWindow.postMessage({ type: 'revive-slot', date, time }, location.origin); } catch (e) { }
+  $('#mobileQuote').href = `quote.html?date=${date}&time=${encodeURIComponent(time)}`;
+  renderCal();
+}
+
+function nextOpening() {
+  for (const d of dayList()) for (const s of AVAIL.slots) {
+    if (!window.reviveSlotTaken(dKey(d), s)) return `${fmtDay(d, { weekday: 'short', month: 'short', day: 'numeric' })} · ${s}`;
+  }
+  return 'Call to book';
+}
+
+(async () => {
+  live = await loadBusy();
+  $('#calStatus').innerHTML = live
+    ? '<span class="dot live"></span>Live from our calendar'
+    : '<span class="dot"></span>Open hours · we confirm your time when we reply';
+  $('#nextOpen').textContent = nextOpening();
+  const names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], openIdx = [0, 1, 2, 3, 4, 5, 6].filter(i => !AVAIL.closedDays.includes(i));
+  if (openIdx.length === 7) $('#openDays').textContent = 'Daily';
+  renderCal();
+})();
+$('#prevWk').onclick = () => { week = Math.max(0, week - 1); renderCal(); };
+$('#nextWk').onclick = () => { week = Math.min(AVAIL.weeks - 1, week + 1); renderCal(); };
+addEventListener('resize', () => renderCal());
+
+// The quote builder loads lazily; send the picked time again once it's ready.
+$('#quoteFrame').addEventListener('load', () => { if (pick) choose(pick.date, pick.time); });
+
+// Quote frame: page scroll passes over it until the visitor clicks in
+const shield = $('#shield');
+shield.onclick = () => { shield.hidden = true; };
+document.addEventListener('click', e => { if (!e.target.closest('.frame')) shield.hidden = false; });
+$('#pickGo').addEventListener('click', e => {
+  if (matchMedia('(max-width:860px)').matches) { e.preventDefault(); location.href = $('#mobileQuote').href; }
+});
+
+// Copy buttons
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => {
+  const done = t => { b.textContent = t; setTimeout(() => b.textContent = 'Copy', 1500); };
+  if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.copy).then(() => done('Copied'), () => done('Select it'));
+  else done('Select it');
+});
+$('#yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
